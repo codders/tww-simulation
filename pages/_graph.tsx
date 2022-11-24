@@ -101,7 +101,7 @@ const dateScale = scaleBand<number>({
     padding: 0.2,
   });
   const temperatureScale = scaleLinear<number>({
-    domain: [0, Math.max(...temperatureTotals)],
+    domain: [0, 120000],
     nice: true,
   });
   const colorScale = scaleOrdinal<CostCategory, string>({
