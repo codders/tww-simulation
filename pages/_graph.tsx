@@ -86,12 +86,12 @@ const StackedBarChart = (props: BarStackProps) => {
 
     const keys = ['Sparkasse Tilgung', 'Sparkasse Zinsen', 'DK Tilgung', 'DK Zinsen', 'KFW Tilgung', 'KFW Zinsen'] as CostCategory[];
 
-    const temperatureTotals = data.reduce((allTotals, currentDate) => {
-    const totalTemperature = keys.reduce((dailyTotal, k) => {
+    const costTotals = data.reduce((allTotals, currentDate) => {
+    const totalCost = keys.reduce((dailyTotal, k) => {
         dailyTotal += Number(currentDate[k]);
         return dailyTotal;
     }, 0);
-    allTotals.push(totalTemperature);
+    allTotals.push(totalCost);
     return allTotals;
     }, [] as number[]);
 
@@ -100,8 +100,8 @@ const dateScale = scaleBand<number>({
     domain: data.map(getVariant),
     padding: 0.2,
   });
-  const temperatureScale = scaleLinear<number>({
-    domain: [0, 120000],
+  const costScale = scaleLinear<number>({
+    domain: [0, Math.ceil(Math.max(...costTotals)/50000) * 50000],
     nice: true,
   });
   const colorScale = scaleOrdinal<CostCategory, string>({
@@ -116,7 +116,7 @@ const dateScale = scaleBand<number>({
   const yMax = height - margin.top - 100;
 
   dateScale.rangeRound([0, xMax]);
-  temperatureScale.range([yMax, 0]);
+  costScale.range([yMax, 0]);
 
   if (!data || isError) return <>
       <svg width={props.width} height={props.height}>
@@ -145,7 +145,7 @@ const dateScale = scaleBand<number>({
           top={margin.top}
           left={margin.left}
           xScale={dateScale}
-          yScale={temperatureScale}
+          yScale={costScale}
           width={xMax}
           height={yMax}
           stroke="black"
@@ -158,7 +158,7 @@ const dateScale = scaleBand<number>({
             keys={keys}
             x={getVariant}
             xScale={dateScale}
-            yScale={temperatureScale}
+            yScale={costScale}
             color={colorScale}
           >
             {(barStacks) =>
@@ -201,7 +201,7 @@ const dateScale = scaleBand<number>({
         <AxisLeft
           left={margin.left + 30}
           top={margin.top}
-          scale={temperatureScale}
+          scale={costScale}
           tickFormat={(x => formatMoney(x.valueOf()))}
           stroke={purple3}
           tickStroke={purple3}
