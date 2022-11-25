@@ -13,32 +13,14 @@ export class CostGenerator
         this.dkZinsen = 0.008;
         this.dkTilgung = 0.005;
     }
-    getInstandhaltungsKosten() {
-        return this.sanierung.InstandhaltungPerQM * this.sanierung.WohnraumQM;
-    }
-    getSolidarbeitrag() {
-        return this.sanierung.WohnraumQM * 12 * this.sanierung.SolidarityPercent;
-    }
-    getUncoveredCosts(variant: number) {
-        return this.getBruttoBaukosten(variant) - this.sanierung.Kontostand - this.sanierung.SanierungsDKs;
-    }
     getKfwLoanSize(variant: number) {
-        return Math.max(this.getUncoveredCosts(variant) - this.direktKredite, 0);
+        return Math.max(this.sanierung.getUncoveredCosts(variant) - this.direktKredite, 0);
     }
     getKfwZinsenPayment(variant: number) {
-        return this.getKfwLoanSize(variant) * this.sanierung.KfwZinssatz;
-    }
-    getBruttoBaukosten(variant: number) {
-        return this.getNettoBaukosten(variant) * 1.19;
+        return this.getKfwLoanSize(variant) * this.sanierung.getKfwZinssatz();
     }
     getNettoBaukosten(variant: number) {
-        if (variant === 1) {
-            return this.sanierung.NettoBaukostenVariant1;
-        }
-        if (variant === 2) {
-            return this.sanierung.NettoBaukostenVariant2;
-        }
-        throw new Error("Invalid Variant")
+        return this.sanierung.getNettoBaukosten(variant);
     }
     getDkTilgungAmount(variant: number) {
         return this.getTotalDKs(variant) * this.dkTilgung;
@@ -47,7 +29,7 @@ export class CostGenerator
         return this.getTotalDKs(variant) * this.dkZinsen;
     }
     getKfwTilgungPayment(variant: number) {
-        return this.getKfwLoanSize(variant) * this.sanierung.KfwTilgung;
+        return this.getKfwLoanSize(variant) * this.sanierung.getKfwTilgung();
     }
     getSparkasseTilgungAmount() {
         return 32000;
@@ -65,23 +47,20 @@ export class CostGenerator
     }
     getMietausfallwagnis(variant: number) {
         return (this.getFinancingCosts(variant)
-            + this.getSolidarbeitrag()
-            + this.getInstandhaltungsKosten()) * 0.0309
+            + this.sanierung.getSolidarbeitrag()
+            + this.sanierung.getInstandhaltungsKosten()) * 0.0309
     }
     getTotalCosts(variant: number) {
         return this.getMietausfallwagnis(variant)
-            + this.getSolidarbeitrag()
-            + this.getInstandhaltungsKosten()
+            + this.sanierung.getSolidarbeitrag()
+            + this.sanierung.getInstandhaltungsKosten()
             + this.getFinancingCosts(variant)
     }
-    getExistingDirektKredite() {
-        return this.sanierung.OldDKs + this.sanierung.SanierungsDKs;
-    }
     getTotalDKs(variant: number) {
-        return this.getExistingDirektKredite() + Math.min(this.direktKredite, this.getUncoveredCosts(variant));
+        return this.sanierung.getExistingDirektKredite() + Math.min(this.direktKredite, this.sanierung.getUncoveredCosts(variant));
     }
     getMiete(variant: number) {
-        return this.getTotalCosts(variant) / this.sanierung.WohnraumQM / 12;
+        return this.getTotalCosts(variant) / this.sanierung.getWohnraumQM() / 12;
     }
     setDirektKredite(direktKredite: number) {
         return this.direktKredite = direktKredite;

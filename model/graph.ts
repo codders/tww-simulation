@@ -15,6 +15,14 @@ export type AnnualCost = {
     'Variant': number;
 }
 
+export type DebtCollection = {
+    DirektKredite: number,
+    Kfw: number,
+    Sparkasse: number,
+    Variant: number
+}
+
 export type AnnualCostSeries = {
-    annualCosts: AnnualCost[]
+    annualCosts: AnnualCost[],
+    debts: DebtCollection[]
 }

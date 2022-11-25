@@ -1,4 +1,4 @@
-export type Sanierung = {
+type SanierungParams = {
     "InstandhaltungPerQM": number,
     "KfwTilgung": number,
     "KfwZinssatz": number,
@@ -8,10 +8,11 @@ export type Sanierung = {
     "OldDKs": number,
     "SanierungsDKs": number,
     "SolidarityPercent": number,
+    "SparkasseLoanAmount": number,
     "WohnraumQM": number,
 }
 
-export const sanierung: Sanierung = {
+const basisParameters: SanierungParams = {
     InstandhaltungPerQM: 10,
     KfwTilgung: 0.0333,
     KfwZinssatz: 0.0122,
@@ -21,5 +22,51 @@ export const sanierung: Sanierung = {
     OldDKs: 840000,
     SanierungsDKs: 500000,
     SolidarityPercent: 0.1,
+    SparkasseLoanAmount: 1000000,
     WohnraumQM: 681,
 }
+
+export class Sanierung {
+    sanierung: SanierungParams
+    constructor(sanierungParams: SanierungParams) {
+        this.sanierung = sanierungParams;
+    }
+    getInstandhaltungsKosten() {
+        return this.sanierung.InstandhaltungPerQM * this.sanierung.WohnraumQM;
+    }
+    getSolidarbeitrag() {
+        return this.sanierung.WohnraumQM * 12 * this.sanierung.SolidarityPercent;
+    }
+    getNettoBaukosten(variant: number) {
+        if (variant === 1) {
+            return this.sanierung.NettoBaukostenVariant1;
+        }
+        if (variant === 2) {
+            return this.sanierung.NettoBaukostenVariant2;
+        }
+        throw new Error("Invalid Variant")    
+    }
+    getBruttoBaukosten(variant: number) {
+        return this.getNettoBaukosten(variant) * 1.19;
+    }
+    getExistingDirektKredite() {
+        return this.sanierung.OldDKs + this.sanierung.SanierungsDKs;
+    }
+    getUncoveredCosts(variant: number) {
+        return this.getBruttoBaukosten(variant) - this.sanierung.Kontostand - this.sanierung.SanierungsDKs;
+    }
+    getKfwZinssatz() {
+        return this.sanierung.KfwZinssatz;
+    }
+    getKfwTilgung() {
+        return this.sanierung.KfwTilgung;
+    }
+    getWohnraumQM() {
+        return this.sanierung.WohnraumQM;
+    }
+    getSparkasseLoanAmount() {
+        return this.sanierung.SparkasseLoanAmount;
+    }
+}
+
+export const sanierung: Sanierung = new Sanierung(basisParameters);

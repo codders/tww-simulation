@@ -7,6 +7,7 @@ import styles from '../styles/Home.module.css'
 import { Footer } from './_footer'
 import Graph from './_graph'
 import MieteDisplay from './_miete'
+import { PieChart } from './_pie'
 
 const useStateWithMerge = (initialState: any) => useReducer(
     (state: any, update: any) => ({ ...state, ...update }),
@@ -43,8 +44,15 @@ const NetAssetsProjected: NextPage = () => {
                         <MieteDisplay dataSource={urlForOptions(apiOptions)} />
                     </div>
 
-                    <div className={styles.grid}>
-                        <Graph width="800" height="600" dataSource={urlForOptions(apiOptions)} />
+                    <div>
+                        <div style={{float:'left', padding: "20px"}}>
+                            <h1 style={{width:'100%', textAlign:'center'}}>Annual Costs</h1>
+                            <Graph width="700" height="600" dataSource={urlForOptions(apiOptions)} />
+                        </div>
+                        <div style={{float:'right', padding: "20px"}}>
+                            <h1 style={{width:'100%', textAlign:'center'}}>Total Debt</h1>
+                            <PieChart width="700" height="600" dataSource={urlForOptions(apiOptions)} />
+                        </div>
                     </div>
 
                     <div>

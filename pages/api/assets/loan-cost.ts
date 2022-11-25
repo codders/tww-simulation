@@ -1,6 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { CostGenerator } from '../../../lib/assets/costs';
+import { DebtGenerator } from '../../../lib/assets/debts';
 import { AnnualCostSeries, GraphData } from '../../../model/graph'
 import { sanierung } from '../../../model/sanierung';
 
@@ -14,9 +15,11 @@ export default function handler(
 ) {
   const params = req.query;
   const costGenerator = new CostGenerator(sanierung);
+  const debtGenerator = new DebtGenerator(sanierung);
 
   if (params.direktKredite !== undefined) {
     costGenerator.setDirektKredite(parseInt(stringParam(params.direktKredite), 10));
+    debtGenerator.setDirektKredite(parseInt(stringParam(params.direktKredite), 10));
   }
   if (params.direktKreditZinsen !== undefined) {
     costGenerator.setDirektKreditZinsen(parseFloat(stringParam(params.direktKreditZinsen)));
@@ -28,7 +31,8 @@ export default function handler(
   res.status(200).json({ 
     name: 'Loan Cost',
     series: {
-      annualCosts: costGenerator.generateVariants()
+      annualCosts: costGenerator.generateVariants(),
+      debts: debtGenerator.generateVariants()
     },
   })
 }
