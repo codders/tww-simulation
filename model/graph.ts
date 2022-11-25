@@ -10,7 +10,8 @@ export type AnnualCost = {
     'KFW Zinsen': string;
     'DK Tilgung': string;
     'DK Zinsen': string;
-    'Miete': string;
+    'Kaltmiete': string;
+    'Warmmiete': string;
     'Total Costs': string;
     'Variant': number;
 }

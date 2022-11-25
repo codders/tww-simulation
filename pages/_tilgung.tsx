@@ -50,9 +50,9 @@ type LoanProperties = {
     RefinanceSparkasse: Date
 }
 
-const loanProperties = {
-    RefinanceKfw: Date.parse('2033-01-01'),
-    RefinanceSparkasse: Date.parse('2031-01-01'),
+const loanProperties: LoanProperties = {
+    RefinanceKfw: new Date(Date.parse('2033-01-01')),
+    RefinanceSparkasse: new Date(Date.parse('2031-01-01')),
 }
 
 // accessors

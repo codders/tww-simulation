@@ -36,7 +36,7 @@ const NetAssetsProjected: NextPage = () => {
                     <link rel="icon" href="/favicon.ico" />
                 </Head>
 
-                <main className={styles.main}>
+                <main className={styles.main} style={{paddingTop: "0px"}}>
                     <h1 className={styles.title}>
                     Miete und Schulden
                     </h1>
@@ -46,18 +46,18 @@ const NetAssetsProjected: NextPage = () => {
                     </div>
 
                     <div>
-                        <div style={{float:'left', padding: "20px"}}>
-                            <h1 style={{width:'100%', textAlign:'center'}}>Annual Costs</h1>
+                        <div style={{float:'left', paddingRight: "20px"}}>
+                            <h1 style={{width:'100%', margin: '0px', textAlign:'center'}}>Annual Costs</h1>
                             <Graph width="700" height="600" dataSource={urlForOptions(apiOptions)} />
                         </div>
-                        <div style={{float:'right', padding: "20px"}}>
-                            <h1 style={{width:'100%', textAlign:'center'}}>Total Debt</h1>
+                        <div style={{float:'right', paddingLeft: "20px"}}>
+                            <h1 style={{width:'100%', margin: '0px', textAlign:'center'}}>Total Debt</h1>
                             <PieChart width="700" height="600" dataSource={urlForOptions(apiOptions)} />
                         </div>
                     </div>
 
                     <div>
-                        <h2 style={{width:'100%', textAlign:'center'}}>Tilgung</h2>
+                        <h2 style={{width:'100%', margin: '0px', textAlign:'center'}}>Tilgung</h2>
                         <TilgungChart width="1400" height="100" dataSource={urlForOptions(apiOptions)} />
                     </div>
 
@@ -74,8 +74,6 @@ const NetAssetsProjected: NextPage = () => {
                     </div>
 
                 </main>
-
-                <Footer />
             </div>
         </ApiConsumer>
     )

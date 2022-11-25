@@ -39,7 +39,8 @@ const MieteDisplay = (props: MieteProps) => {
 
   return (
     <div style={{ position: 'relative' }}>
-      <h2>Miete - Variant 1: <span>{formatNumber(data[0].Miete)}/qm</span>, Variant 2: <span>{formatNumber(data[1].Miete)}/qm</span></h2>
+      <h2>Kaltmiete - Variant 1: <span>{formatNumber(data[0].Kaltmiete)}/qm</span>, Variant 2: <span>{formatNumber(data[1].Kaltmiete)}/qm</span></h2>
+      <h2>Warmmiete - Variant 1: <span>{formatNumber(data[0].Warmmiete)}/qm</span>, Variant 2: <span>{formatNumber(data[1].Warmmiete)}/qm</span></h2>
     </div>
   );
 }
