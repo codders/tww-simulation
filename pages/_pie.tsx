@@ -3,6 +3,7 @@ import { Group } from '@visx/group';
 import { scaleOrdinal } from '@visx/scale';
 import Pie  from '@visx/shape/lib/shapes/Pie';
 import React, { useState } from 'react';
+import { numericFormatter } from 'react-number-format';
 import useSWR from 'swr';
 import { DebtCollection } from '../model/graph';
 
@@ -33,6 +34,14 @@ function useDebtData(dataSource: string) {
       isError: error,
       isLoading: !error && !data,
     }
+}
+
+const formatNumber = (num: string|number) => {
+ return numericFormatter(num.toString(), {
+    decimalScale: 0,
+    prefix: "€",
+    thousandSeparator: ".",
+  })
 }
 
 export const PieChart = (props: PieChartProps) => {
@@ -120,7 +129,7 @@ export const PieChart = (props: PieChartProps) => {
                       textAnchor="middle"
                       pointerEvents="none"
                     >
-                      {arc.data.creditor}: €{arc.data.amount.toFixed(0)}
+                      {arc.data.creditor}: { formatNumber(arc.data.amount) }
                     </text>
                   )}
                 </g>
@@ -136,7 +145,7 @@ export const PieChart = (props: PieChartProps) => {
             fontSize={22}
             textAnchor="middle"
         >
-            Total Debt: €{totalDebt.toFixed(0)}
+            Total Debt: {formatNumber(totalDebt)}
         </text>
       </Group>
     </svg>

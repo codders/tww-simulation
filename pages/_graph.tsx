@@ -8,6 +8,7 @@ import { BarStack } from '@visx/shape';
 import { SeriesPoint } from '@visx/shape/lib/types';
 import {  defaultStyles, useTooltip, useTooltipInPortal } from '@visx/tooltip';
 import React, { useCallback, useMemo } from 'react';
+import { numericFormatter } from 'react-number-format';
 import useSWR from 'swr';
 import { AnnualCost } from '../model/graph';
 
@@ -73,7 +74,7 @@ function useSanierungsData(dataSource: string) {
       isLoading: !error && !data,
     }
   }
-  
+
 const StackedBarChart = (props: BarStackProps) => {
     const margin = props.margin ?? defaultMargin;
     const width = parseInt(props.width, 10);
@@ -115,6 +116,14 @@ const dateScale = scaleBand<number>({
     range: [purple1, purple2, purple3, purple4, purple5, purple6],
   });
   
+  const formatNumber = (num: string|number) => {
+    return numericFormatter(num.toString(), {
+       decimalScale: 0,
+       prefix: "€",
+       thousandSeparator: ".",
+     })
+   }
+ 
   const { containerRef, TooltipInPortal } = useTooltipInPortal();
 
   if (width < 10) return null;
@@ -208,7 +217,7 @@ const dateScale = scaleBand<number>({
           left={margin.left + 30}
           top={margin.top}
           scale={costScale}
-          tickFormat={(x => formatMoney(x.valueOf()))}
+          tickFormat={(x => formatNumber(x.valueOf()))}
           stroke={purple3}
           tickStroke={purple3}
           tickLabelProps={() => ({
@@ -248,7 +257,7 @@ const dateScale = scaleBand<number>({
           <div style={{ color: colorScale(tooltipData.key) }}>
             <strong>{tooltipData.key}</strong>
           </div>
-          <div>{tooltipData.bar.data[tooltipData.key]}€</div>
+          <div>{formatNumber(tooltipData.bar.data[tooltipData.key])}</div>
           <div>
             <small>{formatVariant(getVariant(tooltipData.bar.data))}</small>
           </div>

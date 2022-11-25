@@ -1,4 +1,5 @@
 import React, { useCallback, useMemo } from 'react';
+import { numericFormatter } from 'react-number-format';
 import useSWR from 'swr';
 import { AnnualCost } from '../model/graph';
 
@@ -19,6 +20,15 @@ function useSanierungsData(dataSource: string) {
     }
   }
   
+  const formatNumber = (num: string|number) => {
+    return numericFormatter(num.toString(), {
+       decimalScale: 2,
+       decimalSeparator: ",",
+       prefix: "€",
+       thousandSeparator: ".",
+     })
+   }
+
 const MieteDisplay = (props: MieteProps) => {
 
   const { data, isError } = useSanierungsData(props.dataSource);
@@ -29,7 +39,7 @@ const MieteDisplay = (props: MieteProps) => {
 
   return (
     <div style={{ position: 'relative' }}>
-      <h2>Miete - Variant 1: <span>{data[0].Miete}€/qm</span>, Variant 2: <span>{data[1].Miete}€/qm</span></h2>
+      <h2>Miete - Variant 1: <span>{formatNumber(data[0].Miete)}/qm</span>, Variant 2: <span>{formatNumber(data[1].Miete)}/qm</span></h2>
     </div>
   );
 }
