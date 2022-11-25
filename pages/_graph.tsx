@@ -30,10 +30,16 @@ export type BarStackProps = {
   events?: boolean;
 };
 
+/* Where does the money come from
+ What conditions do we get on the loans we take out?
+ Warm-miete?
+ DK policy?
+  */
+
 const purple1 = '#6c5efb';
-const purple2 = '#c998ff';
+const purple2 = '#7568ff';
 export const purple3 = '#a44afe';
-const purple4 = '#dd77fd';
+const purple4 = '#b554fe';
 const purple5 = '#ee77fc';
 const purple6 = '#ff77fb';
 export const background = '#eaedff';

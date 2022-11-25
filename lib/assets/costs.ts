@@ -19,8 +19,11 @@ export class CostGenerator
     getSolidarbeitrag() {
         return this.sanierung.WohnraumQM * 12 * this.sanierung.SolidarityPercent;
     }
+    getUncoveredCosts(variant: number) {
+        return this.getBruttoBaukosten(variant) - this.sanierung.Kontostand - this.sanierung.SanierungsDKs;
+    }
     getKfwLoanSize(variant: number) {
-        return this.getBruttoBaukosten(variant) - this.sanierung.Kontostand - this.sanierung.SanierungsDKs - this.direktKredite;
+        return Math.max(this.getUncoveredCosts(variant) - this.direktKredite, 0);
     }
     getKfwZinsenPayment(variant: number) {
         return this.getKfwLoanSize(variant) * this.sanierung.KfwZinssatz;
@@ -37,11 +40,11 @@ export class CostGenerator
         }
         throw new Error("Invalid Variant")
     }
-    getDkTilgungAmount() {
-        return this.getTotalDKs() * this.dkTilgung;
+    getDkTilgungAmount(variant: number) {
+        return this.getTotalDKs(variant) * this.dkTilgung;
     }
-    getDkZinsenAmount() {
-        return this.getTotalDKs() * this.dkZinsen;
+    getDkZinsenAmount(variant: number) {
+        return this.getTotalDKs(variant) * this.dkZinsen;
     }
     getKfwTilgungPayment(variant: number) {
         return this.getKfwLoanSize(variant) * this.sanierung.KfwTilgung;
@@ -55,8 +58,8 @@ export class CostGenerator
     getFinancingCosts(variant: number) {
         return this.getSparkasseTilgungAmount() 
             + this.getSparkasseZinsenAmount()
-            + this.getDkTilgungAmount()
-            + this.getDkZinsenAmount()
+            + this.getDkTilgungAmount(variant)
+            + this.getDkZinsenAmount(variant)
             + this.getKfwTilgungPayment(variant)
             + this.getKfwZinsenPayment(variant)
     }
@@ -74,8 +77,8 @@ export class CostGenerator
     getExistingDirektKredite() {
         return this.sanierung.OldDKs + this.sanierung.SanierungsDKs;
     }
-    getTotalDKs() {
-        return this.getExistingDirektKredite() + this.direktKredite;
+    getTotalDKs(variant: number) {
+        return this.getExistingDirektKredite() + Math.min(this.direktKredite, this.getUncoveredCosts(variant));
     }
     getMiete(variant: number) {
         return this.getTotalCosts(variant) / this.sanierung.WohnraumQM / 12;
@@ -92,8 +95,8 @@ export class CostGenerator
     generateVariants() {
         return [
             {
-                "DK Tilgung": this.getDkTilgungAmount().toFixed(0),
-                "DK Zinsen": this.getDkZinsenAmount().toFixed(0),
+                "DK Tilgung": this.getDkTilgungAmount(1).toFixed(0),
+                "DK Zinsen": this.getDkZinsenAmount(1).toFixed(0),
                 "KFW Tilgung": "0",
                 "KFW Zinsen": "0",
                 "Miete": this.getMiete(1).toFixed(2),
@@ -103,8 +106,8 @@ export class CostGenerator
                 "Variant": 1,    
             },
             {
-                "DK Tilgung": this.getDkTilgungAmount().toFixed(0),
-                "DK Zinsen": this.getDkZinsenAmount().toFixed(0),
+                "DK Tilgung": this.getDkTilgungAmount(2).toFixed(0),
+                "DK Zinsen": this.getDkZinsenAmount(2).toFixed(0),
                 "KFW Tilgung": this.getKfwTilgungPayment(2).toFixed(0),
                 "KFW Zinsen": this.getKfwZinsenPayment(2).toFixed(0),
                 "Miete": this.getMiete(2).toFixed(2),
