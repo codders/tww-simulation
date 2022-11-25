@@ -9,6 +9,8 @@ type SanierungParams = {
     "SanierungsDKs": number,
     "SolidarityPercent": number,
     "SparkasseLoanAmount": number,
+    "SparkasseTilgung": number,
+    "SparkasseZinssatz": number,
     "WohnraumQM": number,
 }
 
@@ -23,6 +25,8 @@ const basisParameters: SanierungParams = {
     SanierungsDKs: 500000,
     SolidarityPercent: 0.1,
     SparkasseLoanAmount: 1000000,
+    SparkasseTilgung: 0.0320,
+    SparkasseZinssatz: 0.0085,
     WohnraumQM: 681,
 }
 
@@ -60,6 +64,12 @@ export class Sanierung {
     }
     getKfwTilgung() {
         return this.sanierung.KfwTilgung;
+    }
+    getSparkasseZinssatz() {
+        return this.sanierung.SparkasseZinssatz;
+    }
+    getSparkasseTilgung() {
+        return this.sanierung.SparkasseTilgung;
     }
     getWohnraumQM() {
         return this.sanierung.WohnraumQM;

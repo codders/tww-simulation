@@ -58,7 +58,6 @@ const fetcher = (input: RequestInfo, init?: RequestInit) => fetch(input, init).t
 type CostCategory = 'Sparkasse Tilgung' | 'Sparkasse Zinsen' | 'DK Tilgung' | 'DK Zinsen' | 'KFW Tilgung' | 'KFW Zinsen';
 
 const formatVariant = (variant: number) => `Variant ${variant}`
-const formatMoney = (money: number) => `${money}€`
 
 // accessors
 const getVariant = (d: AnnualCost) => d.Variant;

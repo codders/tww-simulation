@@ -8,6 +8,7 @@ import { Footer } from './_footer'
 import Graph from './_graph'
 import MieteDisplay from './_miete'
 import { PieChart } from './_pie'
+import TilgungChart from './_tilgung'
 
 const useStateWithMerge = (initialState: any) => useReducer(
     (state: any, update: any) => ({ ...state, ...update }),
@@ -56,13 +57,18 @@ const NetAssetsProjected: NextPage = () => {
                     </div>
 
                     <div>
-                        <div>
+                        <h2 style={{width:'100%', textAlign:'center'}}>Tilgung</h2>
+                        <TilgungChart width="1400" height="100" dataSource={urlForOptions(apiOptions)} />
+                    </div>
+
+                    <div>
+                        <div style={{float:'left', padding: "20px"}}>
                             <DirektKreditSlider/>
                         </div>
-                        <div>
+                        <div style={{float:'left', padding: "20px"}}>
                             <DirektKreditZinsenSlider/>
                         </div>
-                        <div>
+                        <div style={{float:'left', padding: "20px"}}>
                             <DirektKreditTilgungSlider/>
                         </div>
                     </div>

@@ -24,5 +24,17 @@ export type DebtCollection = {
 
 export type AnnualCostSeries = {
     annualCosts: AnnualCost[],
-    debts: DebtCollection[]
+    debts: DebtCollection[],
+    tilgung: TilgungDataPointWithVariant[],
+}
+
+export type TilgungDataPoint = {
+    DirektKredite: number,
+    KfW: number,
+    Sparkasse: number,
+    date: Date
+}
+
+export type TilgungDataPointWithVariant =  TilgungDataPoint & {
+    Variant: number
 }
