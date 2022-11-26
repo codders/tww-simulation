@@ -25,6 +25,7 @@ export default function handler(
   if (params.direktKredite !== undefined) {
     costGenerator.setDirektKredite(parseInt(stringParam(params.direktKredite), 10));
     debtGenerator.setDirektKredite(parseInt(stringParam(params.direktKredite), 10));
+    tilgungGenerator.setDirektKredite(parseInt(stringParam(params.direktKredite), 10));
   }
   if (params.direktKreditZinsen !== undefined) {
     costGenerator.setDirektKreditZinsen(parseFloat(stringParam(params.direktKreditZinsen)));

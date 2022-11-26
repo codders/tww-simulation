@@ -29,6 +29,9 @@ export class TilgungGenerator
     setDirektKreditTilgung(tilgung: number) {
         this.dkTilgung = tilgung / 100;
     }
+    setDirektKredite(direktKredite: number) {
+        this.direktKredite = direktKredite;
+    }
     getTotalDKs(variant: number) {
         return this.sanierung.getExistingDirektKredite() + Math.min(this.direktKredite, this.sanierung.getUncoveredCosts(variant));
     }
