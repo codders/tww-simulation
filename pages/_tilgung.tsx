@@ -67,7 +67,7 @@ function useTilgungData(dataSource: string) {
   return {
     isError: error,
     isLoading: !error && !data,
-    stock: ((data?.series?.tilgung ?? []) as TilgungDataPointWithVariant[]).filter(d => d.Variant === 2).map(d => { const { Variant, ...others} = d; return others })
+    stock: ((data?.series?.tilgung ?? []) as TilgungDataPointWithVariant[]).map(d => { const { Variant, ...others} = d; return others })
   }
 }
 

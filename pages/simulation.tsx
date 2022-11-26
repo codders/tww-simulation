@@ -1,9 +1,9 @@
 import type { NextPage } from 'next'
-import Head from 'next/head'
 import { useReducer } from 'react'
 import { ApiConsumer } from '../components/apiContext'
 import { DirektKreditSlider,  DirektKreditTilgungSlider, DirektKreditZinsenSlider } from '../components/direktKredite'
 import { GasPreisSlider, StromPreisSlider } from '../components/energieVersorgung'
+import VariantSwitch from '../components/variantSwitch'
 import { sanierung } from '../model/sanierung'
 import styles from '../styles/Home.module.css'
 import { Footer } from './_footer'
@@ -25,7 +25,8 @@ const NetAssetsProjected: NextPage = () => {
         direktKredite: 160000,
         gasPreisCentskWh: sanierung.getGasPreisEuroProkWh() * 100,
         stromPreisCentskWh: sanierung.getStromPreisEuroProkWh() * 100,
-        url: "/api/simulate" 
+        url: "/api/simulate",
+        variant: 1
     })
     const urlForOptions = (options: any) => {
         const {url, ...queryOptions} = options;
@@ -52,17 +53,20 @@ const NetAssetsProjected: NextPage = () => {
                             <Graph width="700" height="600" dataSource={urlForOptions(apiOptions)} />
                         </div>
                         <div>
-                            <h1 style={{width:'100%', margin: '0px', textAlign:'center'}}>Total Debt</h1>
+                            <h1 style={{width:'100%', margin: '0px', textAlign:'center'}}>Total Debt Variant {apiOptions.variant}</h1>
                             <PieChart width="700" height="600" dataSource={urlForOptions(apiOptions)} />
                         </div>
                     </div>
 
                     <div style={{width:'100%'}}>
-                        <h2 style={{width:'100%', margin: '0px', textAlign:'center'}}>Tilgung</h2>
+                        <h2 style={{width:'100%', margin: '0px', textAlign:'center'}}>Tilgung Variant {apiOptions.variant}</h2>
                         <TilgungChart width="1400" height="100" dataSource={urlForOptions(apiOptions)} />
                     </div>
 
                     <div className={styles.sliderGrid}>
+                        <div>
+                            <VariantSwitch/>
+                        </div>
                         <div>
                             <DirektKreditSlider/>
                         </div>

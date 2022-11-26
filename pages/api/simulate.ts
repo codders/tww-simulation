@@ -20,6 +20,7 @@ export default function handler(
   const debtGenerator = new DebtGenerator(sanierung);
   const tilgungGenerator = new TilgungGenerator(sanierung);
   const warmCostGenerator = new WarmCostGenerator(sanierung);
+  const activeVariant = (params.variant !== undefined) ? parseInt(stringParam(params.variant), 10) : 1;
 
   if (params.direktKredite !== undefined) {
     costGenerator.setDirektKredite(parseInt(stringParam(params.direktKredite), 10));
@@ -44,8 +45,8 @@ export default function handler(
     name: 'Loan Cost',
     series: {
       coldCosts: costGenerator.generateVariants(),
-      debts: debtGenerator.generateVariants(),
-      tilgung: tilgungGenerator.generateVariants(),
+      debts: debtGenerator.generateVariant(activeVariant),
+      tilgung: tilgungGenerator.generateVariant(activeVariant),
       warmCosts: warmCostGenerator.generateVariants(),
     },
   })

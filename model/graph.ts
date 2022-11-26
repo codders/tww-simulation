@@ -30,7 +30,7 @@ export type DebtCollection = {
 export type AnnualCostSeries = {
     coldCosts: ColdCost[],
     warmCosts: WarmCost[],
-    debts: DebtCollection[],
+    debts: DebtCollection,
     tilgung: TilgungDataPointWithVariant[],
 }
 

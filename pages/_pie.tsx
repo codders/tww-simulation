@@ -31,7 +31,7 @@ function useDebtData(dataSource: string) {
     const { data, error } = useSWR(dataSource, fetcher)
   
     return {
-      data: (data?.series?.debts ?? []) as DebtCollection[],
+      data: (data?.series?.debts) as DebtCollection,
       isError: error,
       isLoading: !error && !data,
     }
@@ -83,13 +83,12 @@ export const PieChart = (props: PieChartProps) => {
       </ScaleSVG>
     </>;
 
-    const variantData = data.find(d => d.Variant === 2)
-    if (variantData === undefined) {
+    if (data === undefined) {
       return <>
       <p>Loading...</p>
       </>
     }
-    const debts: Debt[] = Object.entries(variantData).filter(k => k[0] !== "Variant" ).map(k => ({ "creditor": k[0], "amount": k[1] }))
+    const debts: Debt[] = Object.entries(data).filter(k => k[0] !== "Variant" ).map(k => ({ "creditor": k[0], "amount": k[1] }))
     const totalDebt = debts.reduce((a, n) => a + n.amount, 0);
   
     const getLetterFrequencyColor = scaleOrdinal({

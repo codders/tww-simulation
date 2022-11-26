@@ -89,7 +89,7 @@ p.graphSubtitle {
 .sliderGrid {
   display: grid;
   width: 100%;
-  grid-template-columns: auto auto auto auto auto;
+  grid-template-columns: auto auto auto auto auto auto;
   column-gap: 25px;
   align-items: center;
   justify-content: center;

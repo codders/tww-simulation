@@ -10,6 +10,9 @@ export class DebtGenerator
         this.direktKredite = 0;
     }
     getKfwLoanSize(variant: number) {
+        if (variant === 1) {
+            return 0;
+        }
         return Math.max(this.sanierung.getUncoveredCosts(variant) - this.direktKredite, 0);
     }
     getTotalDKs(variant: number) {
@@ -18,20 +21,12 @@ export class DebtGenerator
     setDirektKredite(direktKredite: number) {
         return this.direktKredite = direktKredite;
     }
-    generateVariants() {
-        return [
-            {
-                "DirektKredite": this.getTotalDKs(1),
-                "Kfw": this.getKfwLoanSize(1),
+    generateVariant(variant: number) {
+        return {
+                "DirektKredite": this.getTotalDKs(variant),
+                "Kfw": this.getKfwLoanSize(variant),
                 "Sparkasse": this.sanierung.getSparkasseOutstandingLoanAmount(),
-                "Variant": 1,    
-            },
-            {
-                "DirektKredite": this.getTotalDKs(2),
-                "Kfw": this.getKfwLoanSize(2),
-                "Sparkasse": this.sanierung.getSparkasseOutstandingLoanAmount(),
-                "Variant": 2,    
-            },
-        ]
+                "Variant": variant,
+            }
     }
 };

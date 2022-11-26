@@ -8,7 +8,8 @@ const ApiContext = createContext({
         direktKredite: 160000,
         gasPreisCentskWh: sanierung.getGasPreisEuroProkWh() * 100,
         stromPreisCentskWh: sanierung.getStromPreisEuroProkWh() * 100,
-        url: ""
+        url: "",
+        variant: 1,
     },
     updateApiOptions: (options: any) => { return 0 }
 });

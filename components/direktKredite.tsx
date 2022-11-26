@@ -8,7 +8,7 @@ export const DirektKreditSlider = (componentProps: any) => {
         <h3>DirektKredite - {apiOptions.direktKredite}</h3>
         <Range
           step={10000}
-          min={0}
+          min={160000}
           max={1000000}
           values={[apiOptions.direktKredite]}
           onChange={(values) => updateApiOptions({ direktKredite: values[0] })}
