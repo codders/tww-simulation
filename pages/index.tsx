@@ -10,14 +10,18 @@ const Home: NextPage = () => {
       <Header/>
 
       <main className={styles.main}>
+        <div className={styles.logo}>
+          <img src="/logo.jpg" />
+        </div>
+
         <h1 className={styles.title}>
-          TWW Miete und Schulden Simulation
+          TWW Renovierungs Simulation
         </h1>
 
-        <div className={styles.grid}>
+        <div className={styles.cardGrid}>
           <Link href="/simulation">
             <a className={styles.card}>
-              <p className={styles.graphSubtitle}>Simulation</p>
+              <p className={styles.graphSubtitle}>Launch Simulation</p>
             </a>
           </Link>
         </div>
