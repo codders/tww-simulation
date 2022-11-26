@@ -44,40 +44,40 @@ const NetAssetsProjected: NextPage = () => {
                     Miete und Schulden
                     </h1>
 
-                    <div className={styles.grid}>
+                    <div>
                         <MieteDisplay dataSource={urlForOptions(apiOptions)} />
                     </div>
 
-                    <div>
-                        <div style={{float:'left', paddingRight: "20px"}}>
+                    <div className={styles.grid}>
+                        <div>
                             <h1 style={{width:'100%', margin: '0px', textAlign:'center'}}>Annual Costs</h1>
                             <Graph width="700" height="600" dataSource={urlForOptions(apiOptions)} />
                         </div>
-                        <div style={{float:'right', paddingLeft: "20px"}}>
+                        <div>
                             <h1 style={{width:'100%', margin: '0px', textAlign:'center'}}>Total Debt</h1>
                             <PieChart width="700" height="600" dataSource={urlForOptions(apiOptions)} />
                         </div>
                     </div>
 
-                    <div>
+                    <div style={{width:'100%'}}>
                         <h2 style={{width:'100%', margin: '0px', textAlign:'center'}}>Tilgung</h2>
                         <TilgungChart width="1400" height="100" dataSource={urlForOptions(apiOptions)} />
                     </div>
 
-                    <div>
-                        <div style={{float:'left', padding: "20px"}}>
+                    <div className={styles.sliderGrid}>
+                        <div>
                             <DirektKreditSlider/>
                         </div>
-                        <div style={{float:'left', padding: "20px"}}>
+                        <div>
                             <DirektKreditZinsenSlider/>
                         </div>
-                        <div style={{float:'left', padding: "20px"}}>
+                        <div>
                             <DirektKreditTilgungSlider/>
                         </div>
-                        <div style={{float:'left', padding: "20px"}}>
+                        <div>
                             <StromPreisSlider/>
                         </div>
-                        <div style={{float:'left', padding: "20px"}}>
+                        <div>
                             <GasPreisSlider/>
                         </div>
                     </div>

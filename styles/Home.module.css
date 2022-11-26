@@ -71,16 +71,35 @@ p.graphSubtitle {
 }
 
 .grid {
-  display: flex;
+  display: grid;
+  width: 100%;
+  grid-template-columns: 50% 50%;
+  column-gap: 25px;
   align-items: center;
   justify-content: center;
-  flex-wrap: wrap;
-  max-width: 1000px;
 }
 
-.gridLeft {
-  float: left;
+@media only screen and (max-width: 1000px) {
+  .grid {
+    grid-template-columns: 100%;
+  }
 }
+
+.sliderGrid {
+  display: grid;
+  width: 100%;
+  grid-template-columns: auto auto auto auto auto;
+  column-gap: 25px;
+  align-items: center;
+  justify-content: center;
+}
+
+@media only screen and (max-width: 1000px) {
+  .sliderGrid {
+    grid-template-columns: auto auto auto;
+  }
+}
+
 
 .card {
   margin: 1rem;

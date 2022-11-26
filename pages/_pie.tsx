@@ -1,5 +1,6 @@
 import { GradientPinkBlue } from '@visx/gradient';
 import { Group } from '@visx/group';
+import { ScaleSVG } from '@visx/responsive';
 import { scaleOrdinal } from '@visx/scale';
 import Pie  from '@visx/shape/lib/shapes/Pie';
 import React, { useState } from 'react';
@@ -62,6 +63,7 @@ export const PieChart = (props: PieChartProps) => {
     const pieSortValues = (a: number, b: number) => b - a;
 
     if (!data || isError) return <>
+      <ScaleSVG width={props.width} height={props.height}>
       <svg width={props.width} height={props.height}>
       <rect
           x={0}
@@ -78,6 +80,7 @@ export const PieChart = (props: PieChartProps) => {
           Loading...
         </text>
       </svg>
+      </ScaleSVG>
     </>;
 
     const variantData = data.find(d => d.Variant === 2)
@@ -99,7 +102,9 @@ export const PieChart = (props: PieChartProps) => {
         ]
     });
     
-    return (<svg width={width} height={height}>
+    return (
+      <ScaleSVG width={width} height={height}>
+      <svg width={width} height={height}>
         <GradientPinkBlue id="visx-pie-gradient" />
         <rect rx={14} width={width} height={height} fill="url('#visx-pie-gradient')" />
         <Group top={top} left={left}>
@@ -149,6 +154,7 @@ export const PieChart = (props: PieChartProps) => {
         </text>
       </Group>
     </svg>
+    </ScaleSVG>
   )
 }
 

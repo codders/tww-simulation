@@ -3,6 +3,7 @@ import { Axis, Orientation } from '@visx/axis';
 import { localPoint } from '@visx/event';
 import { GradientPinkBlue, LinearGradient } from '@visx/gradient';
 import { GridColumns, GridRows } from '@visx/grid';
+import { ScaleSVG } from '@visx/responsive';
 import { scaleLinear, scaleTime } from '@visx/scale';
 import { AreaStack, Bar, Line } from '@visx/shape';
 import { defaultStyles, useTooltip, useTooltipInPortal } from '@visx/tooltip';
@@ -159,6 +160,7 @@ const TilgungChart = (props: any) => {
   if (props.width < 10) return null;
 
   if (!stock || stock.length === 0 || isError) return <>
+      <ScaleSVG width={props.width} height={props.height}>
       <svg width={props.width} height={props.height}>
       <rect
           x={0}
@@ -176,10 +178,12 @@ const TilgungChart = (props: any) => {
           Loading...
         </text>
       </svg>
+      </ScaleSVG>
     </>;
 
   return (
     <>
+      <ScaleSVG width={props.width} height={props.height}>
       <svg width={props.width} height={props.height} ref={containerRef}>
         <rect
           x={0}
@@ -344,6 +348,7 @@ const TilgungChart = (props: any) => {
           </g>
         )}
       </svg>
+      </ScaleSVG>
       {tooltipData && (
         <div>
           <TooltipInPortal

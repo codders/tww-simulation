@@ -3,11 +3,12 @@ import { localPoint } from '@visx/event';
 import { Grid } from '@visx/grid';
 import { Group } from '@visx/group';
 import { LegendOrdinal } from '@visx/legend';
+import { ScaleSVG } from '@visx/responsive';
 import { scaleBand, scaleLinear, scaleOrdinal } from '@visx/scale';
 import { BarStack } from '@visx/shape';
 import { SeriesPoint } from '@visx/shape/lib/types';
 import {  defaultStyles, useTooltip, useTooltipInPortal } from '@visx/tooltip';
-import React, { useCallback, useMemo } from 'react';
+import React from 'react';
 import { numericFormatter } from 'react-number-format';
 import useSWR from 'swr';
 import { ColdCost } from '../model/graph';
@@ -132,7 +133,7 @@ const dateScale = scaleBand<number>({
   dateScale.rangeRound([0, xMax]);
   costScale.range([yMax, 0]);
 
-  if (!data || isError) return <>
+  if (!data || isError) return <ScaleSVG width={props.width} height={props.height}>
       <svg width={props.width} height={props.height}>
       <rect
           x={0}
@@ -149,10 +150,11 @@ const dateScale = scaleBand<number>({
           Loading...
         </text>
       </svg>
-    </>;
+    </ScaleSVG>;
 
   return width < 10 ? null : (
     <div style={{ position: 'relative' }}>
+      <ScaleSVG width={props.width} height={props.height}>
       <svg ref={containerRef} width={width} height={height}>
         <rect x={0} y={0} width={width} height={height} fill={background} rx={14} />
         <Grid
@@ -238,6 +240,7 @@ const dateScale = scaleBand<number>({
           })}
         />
       </svg>
+      </ScaleSVG>
       <div
         style={{
           display: 'flex',
