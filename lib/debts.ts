@@ -1,4 +1,4 @@
-import { Sanierung } from "../../model/sanierung";
+import { Sanierung } from "../model/sanierung";
 
 export class DebtGenerator
 {

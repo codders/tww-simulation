@@ -1,16 +1,13 @@
 import type { NextPage } from 'next'
-import Head from 'next/head'
 import Link from 'next/link'
 import styles from '../styles/Home.module.css'
 import { Footer } from './_footer'
+import { Header } from './_header'
 
 const Home: NextPage = () => {
   return (
     <div className={styles.container}>
-      <Head>
-        <title>TWW Miete und Schulden Simulation</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+      <Header/>
 
       <main className={styles.main}>
         <h1 className={styles.title}>
