@@ -1,10 +1,13 @@
 import { createContext, useContext } from 'react';
+import { sanierung } from '../model/sanierung';
 
 const ApiContext = createContext({
     apiOptions: { 
         direktKreditTilgung: 0.5,
         direktKreditZinsen: 0.8,
-        direktKredite: 0,
+        direktKredite: 160000,
+        gasPreisCentskWh: sanierung.getGasPreisEuroProkWh() * 100,
+        stromPreisCentskWh: sanierung.getStromPreisEuroProkWh() * 100,
         url: ""
     },
     updateApiOptions: (options: any) => { return 0 }

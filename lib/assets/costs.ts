@@ -1,3 +1,4 @@
+import { tickStep } from "d3-array";
 import { Sanierung } from "../../model/sanierung";
 
 export class ColdCostGenerator
@@ -32,10 +33,10 @@ export class ColdCostGenerator
         return this.getKfwLoanSize(variant) * this.sanierung.getKfwTilgung();
     }
     getSparkasseTilgungAmount() {
-        return 32000;
+        return this.sanierung.getSparkasseOriginalLoanAmount() * this.sanierung.getSparkasseTilgung();
     }
     getSparkasseZinsenAmount() {
-        return 8500;
+        return this.sanierung.getSparkasseOriginalLoanAmount() * this.sanierung.getSparkasseZinssatz();
     }
     getFinancingCosts(variant: number) {
         return this.getSparkasseTilgungAmount() 

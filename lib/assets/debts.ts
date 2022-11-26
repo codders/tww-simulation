@@ -23,13 +23,13 @@ export class DebtGenerator
             {
                 "DirektKredite": this.getTotalDKs(1),
                 "Kfw": this.getKfwLoanSize(1),
-                "Sparkasse": this.sanierung.getSparkasseLoanAmount(),
+                "Sparkasse": this.sanierung.getSparkasseOutstandingLoanAmount(),
                 "Variant": 1,    
             },
             {
                 "DirektKredite": this.getTotalDKs(2),
                 "Kfw": this.getKfwLoanSize(2),
-                "Sparkasse": this.sanierung.getSparkasseLoanAmount(),
+                "Sparkasse": this.sanierung.getSparkasseOutstandingLoanAmount(),
                 "Variant": 2,    
             },
         ]

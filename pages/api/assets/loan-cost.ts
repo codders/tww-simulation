@@ -33,6 +33,12 @@ export default function handler(
     costGenerator.setDirektKreditTilgung(parseFloat(stringParam(params.direktKreditTilgung)));
     tilgungGenerator.setDirektKreditTilgung(parseFloat(stringParam(params.direktKreditTilgung)));
   }
+  if (params.stromPreisCentskWh !== undefined) {
+    warmCostGenerator.setStromPreisEuroProkWh(parseInt(stringParam(params.stromPreisCentskWh),10)/100);    
+  }
+  if (params.gasPreisCentskWh !== undefined) {
+    warmCostGenerator.setGasPreisEuroProkWh(parseInt(stringParam(params.gasPreisCentskWh),10)/100);    
+  }
 
   res.status(200).json({ 
     name: 'Loan Cost',
