@@ -1,6 +1,6 @@
 import { Sanierung } from "../../model/sanierung";
 
-export class CostGenerator
+export class ColdCostGenerator
 {
     sanierung: Sanierung;
     direktKredite: number;
@@ -59,7 +59,7 @@ export class CostGenerator
     getTotalDKs(variant: number) {
         return this.sanierung.getExistingDirektKredite() + Math.min(this.direktKredite, this.sanierung.getUncoveredCosts(variant));
     }
-    getMiete(variant: number) {
+    getKaltMiete(variant: number) {
         return this.getTotalCosts(variant) / this.sanierung.getWohnraumQM() / 12;
     }
     setDirektKredite(direktKredite: number) {
@@ -78,24 +78,22 @@ export class CostGenerator
                 "DK Zinsen": this.getDkZinsenAmount(1).toFixed(0),
                 "KFW Tilgung": "0",
                 "KFW Zinsen": "0",
-                "Kaltmiete": this.getMiete(1).toFixed(2),
+                "Kaltmiete": this.getKaltMiete(1),
                 "Sparkasse Tilgung": this.getSparkasseTilgungAmount().toFixed(0),
                 "Sparkasse Zinsen": this.getSparkasseZinsenAmount().toFixed(0),
                 "Total Costs": this.getTotalCosts(1).toFixed(0),
                 "Variant": 1,    
-                "Warmmiete": this.getMiete(1).toFixed(2),
             },
             {
                 "DK Tilgung": this.getDkTilgungAmount(2).toFixed(0),
                 "DK Zinsen": this.getDkZinsenAmount(2).toFixed(0),
                 "KFW Tilgung": this.getKfwTilgungPayment(2).toFixed(0),
                 "KFW Zinsen": this.getKfwZinsenPayment(2).toFixed(0),
-                "Kaltmiete": this.getMiete(2).toFixed(2),
+                "Kaltmiete": this.getKaltMiete(2),
                 "Sparkasse Tilgung": this.getSparkasseTilgungAmount().toFixed(0),
                 "Sparkasse Zinsen": this.getSparkasseZinsenAmount().toFixed(0),
                 "Total Costs": this.getTotalCosts(2).toFixed(0),
                 "Variant": 2,
-                "Warmmiete": this.getMiete(2).toFixed(2),
             }        
         ]
     }

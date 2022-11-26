@@ -10,10 +10,10 @@ import {  defaultStyles, useTooltip, useTooltipInPortal } from '@visx/tooltip';
 import React, { useCallback, useMemo } from 'react';
 import { numericFormatter } from 'react-number-format';
 import useSWR from 'swr';
-import { AnnualCost } from '../model/graph';
+import { ColdCost } from '../model/graph';
 
 type TooltipData = {
-  bar: SeriesPoint<AnnualCost>;
+  bar: SeriesPoint<ColdCost>;
   key: CostCategory;
   index: number;
   height: number;
@@ -60,7 +60,7 @@ type CostCategory = 'Sparkasse Tilgung' | 'Sparkasse Zinsen' | 'DK Tilgung' | 'D
 const formatVariant = (variant: number) => `Variant ${variant}`
 
 // accessors
-const getVariant = (d: AnnualCost) => d.Variant;
+const getVariant = (d: ColdCost) => d.Variant;
 
 let tooltipTimeout: number;
 
@@ -68,7 +68,7 @@ function useSanierungsData(dataSource: string) {
     const { data, error } = useSWR(dataSource, fetcher)
   
     return {
-      data: (data?.series?.annualCosts ?? []) as AnnualCost[],
+      data: (data?.series?.coldCosts ?? []) as ColdCost[],
       isError: error,
       isLoading: !error && !data,
     }
@@ -167,7 +167,7 @@ const dateScale = scaleBand<number>({
           xOffset={dateScale.bandwidth() / 2}
         />
         <Group top={margin.top}>
-          <BarStack<AnnualCost, CostCategory>
+          <BarStack<ColdCost, CostCategory>
             data={data}
             keys={keys}
             x={getVariant}

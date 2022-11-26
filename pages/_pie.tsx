@@ -49,6 +49,7 @@ export const PieChart = (props: PieChartProps) => {
     const height = parseInt(props.height, 10);
     const margin = props.margin ?? defaultMargin;
    
+    const { data, isError } = useDebtData(props.dataSource);
     if (width < 10) return null;
 
     const innerWidth = width - margin.left - margin.right;
@@ -60,7 +61,6 @@ export const PieChart = (props: PieChartProps) => {
     const left = centerX + margin.left;
     const pieSortValues = (a: number, b: number) => b - a;
 
-    const { data, isError } = useDebtData(props.dataSource);
     if (!data || isError) return <>
       <svg width={props.width} height={props.height}>
       <rect
@@ -151,3 +151,5 @@ export const PieChart = (props: PieChartProps) => {
     </svg>
   )
 }
+
+export default PieChart;

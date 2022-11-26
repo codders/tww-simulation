@@ -1,9 +1,10 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { CostGenerator } from '../../../lib/assets/costs';
+import { ColdCostGenerator } from '../../../lib/assets/costs';
 import { DebtGenerator } from '../../../lib/assets/debts';
 import { TilgungGenerator } from '../../../lib/assets/tilgung';
-import { AnnualCostSeries, GraphData } from '../../../model/graph'
+import { WarmCostGenerator } from '../../../lib/assets/warm_costs';
+import { AnnualCostSeries, GraphData } from '../../../model/graph';
 import { sanierung } from '../../../model/sanierung';
 
 const stringParam = (param: string | string[]) => {
@@ -15,9 +16,10 @@ export default function handler(
   res: NextApiResponse<GraphData<AnnualCostSeries>>
 ) {
   const params = req.query;
-  const costGenerator = new CostGenerator(sanierung);
+  const costGenerator = new ColdCostGenerator(sanierung);
   const debtGenerator = new DebtGenerator(sanierung);
   const tilgungGenerator = new TilgungGenerator(sanierung);
+  const warmCostGenerator = new WarmCostGenerator(sanierung);
 
   if (params.direktKredite !== undefined) {
     costGenerator.setDirektKredite(parseInt(stringParam(params.direktKredite), 10));
@@ -35,9 +37,10 @@ export default function handler(
   res.status(200).json({ 
     name: 'Loan Cost',
     series: {
-      annualCosts: costGenerator.generateVariants(),
+      coldCosts: costGenerator.generateVariants(),
       debts: debtGenerator.generateVariants(),
       tilgung: tilgungGenerator.generateVariants(),
+      warmCosts: warmCostGenerator.generateVariants(),
     },
   })
 }
