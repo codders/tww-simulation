@@ -1,4 +1,4 @@
-import { Sanierung } from "../model/sanierung";
+import { Sanierung } from "./sanierung";
 
 function calculateStartAnnuity(creditSum: number, zinsen: number, tilgung: number) {
     return creditSum * (zinsen + tilgung);

@@ -1,4 +1,4 @@
-import { Sanierung } from "../model/sanierung";
+import { Sanierung } from "./sanierung";
 
 export class WarmCostGenerator {
     sanierung: Sanierung;

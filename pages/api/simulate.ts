@@ -1,11 +1,11 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { ColdCostGenerator } from '../../lib/costs';
-import { DebtGenerator } from '../../lib/debts';
-import { TilgungGenerator } from '../../lib/tilgung';
-import { WarmCostGenerator } from '../../lib/warm_costs';
+import { ColdCostGenerator } from '../../model/costs';
+import { DebtGenerator } from '../../model/debts';
 import { AnnualCostSeries, GraphData } from '../../model/graph';
 import { sanierung } from '../../model/sanierung';
+import { TilgungGenerator } from '../../model/tilgung';
+import { WarmCostGenerator } from '../../model/warm_costs';
 
 const stringParam = (param: string | string[]) => {
   return typeof param === "string" ? param : param[0]

@@ -1,5 +1,4 @@
-import { tickStep } from "d3-array";
-import { Sanierung } from "../model/sanierung";
+import { Sanierung } from "./sanierung";
 
 export class ColdCostGenerator {
     sanierung: Sanierung;
