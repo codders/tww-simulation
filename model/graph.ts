@@ -41,6 +41,6 @@ export type TilgungDataPoint = {
     date: Date
 }
 
-export type TilgungDataPointWithVariant =  TilgungDataPoint & {
+export type TilgungDataPointWithVariant = TilgungDataPoint & {
     Variant: number
 }

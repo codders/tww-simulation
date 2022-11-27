@@ -34,26 +34,26 @@ const tooltipStyles = {
 // fetch implementation
 const fetcher = (input: RequestInfo, init?: RequestInit) => fetch(input, init).then(res => res.json())
 
-type LoanType = keyof(TilgungDataPoint);
-const loanTypes: LoanType[] = [ "Sparkasse", "KfW", "DirektKredite" ];
+type LoanType = keyof (TilgungDataPoint);
+const loanTypes: LoanType[] = ["Sparkasse", "KfW", "DirektKredite"];
 
 
-const formatNumber = (num: string|number) => {
-    return numericFormatter(num.toString(), {
-       decimalScale: 0,
-       prefix: "€",
-       thousandSeparator: ".",
-     })
-   }
+const formatNumber = (num: string | number) => {
+  return numericFormatter(num.toString(), {
+    decimalScale: 0,
+    prefix: "€",
+    thousandSeparator: ".",
+  })
+}
 
 type LoanProperties = {
-    RefinanceKfw: Date,
-    RefinanceSparkasse: Date
+  RefinanceKfw: Date,
+  RefinanceSparkasse: Date
 }
 
 const loanProperties: LoanProperties = {
-    RefinanceKfw: new Date(Date.parse('2033-01-01')),
-    RefinanceSparkasse: new Date(Date.parse('2031-01-01')),
+  RefinanceKfw: new Date(Date.parse('2033-01-01')),
+  RefinanceSparkasse: new Date(Date.parse('2031-01-01')),
 }
 
 // accessors
@@ -67,28 +67,28 @@ function useTilgungData(dataSource: string) {
   return {
     isError: error,
     isLoading: !error && !data,
-    stock: ((data?.series?.tilgung ?? []) as TilgungDataPointWithVariant[]).map(d => { const { Variant, ...others} = d; return others })
+    stock: ((data?.series?.tilgung ?? []) as TilgungDataPointWithVariant[]).map(d => { const { Variant, ...others } = d; return others })
   }
 }
 
 const dateTickLabelProps = () =>
-  ({
-    fill: accentColor,
-    fontFamily: 'sans-serif',
-    fontSize: 12,
-    textAnchor: 'middle',
-  } as const);
+({
+  fill: accentColor,
+  fontFamily: 'sans-serif',
+  fontSize: 12,
+  textAnchor: 'middle',
+} as const);
 
 const eurTickLabelProps = () =>
-  ({
-    fill: accentColor,
-    fontFamily: 'sans-serif',
-    fontSize: 12,
-    textAnchor: 'start',
-  } as const);
+({
+  fill: accentColor,
+  fontFamily: 'sans-serif',
+  fontSize: 12,
+  textAnchor: 'start',
+} as const);
 
 const TilgungChart = (props: any) => {
-  const margin = { top: 7, left: 2, right: 2, bottom: 7};
+  const margin = { top: 7, left: 2, right: 2, bottom: 7 };
 
   // bounds
   const innerWidth = props.width - margin.left - margin.right;
@@ -160,194 +160,194 @@ const TilgungChart = (props: any) => {
   if (props.width < 10) return null;
 
   if (!stock || stock.length === 0 || isError) return <>
-      <ScaleSVG width={props.width} height={props.height}>
+    <ScaleSVG width={props.width} height={props.height}>
       <svg width={props.width} height={props.height}>
-      <rect
-          x={0}
-          y={0}
-          width={props.width}
-          height={props.height}
-          fill="url(#area-background-gradient)"
-          rx={7}
-      />
-      <LinearGradient id="area-background-gradient" from={background} to={background2} />
-      <text x="250" y="150"
-        fontFamily='sans-serif'
-        fontSize="55"
-        color="white">
-          Loading...
-        </text>
-      </svg>
-      </ScaleSVG>
-    </>;
-
-  return (
-    <>
-      <ScaleSVG width={props.width} height={props.height}>
-      <svg width={props.width} height={props.height} ref={containerRef}>
         <rect
           x={0}
           y={0}
           width={props.width}
           height={props.height}
           fill="url(#area-background-gradient)"
-          rx={14}
+          rx={7}
         />
-        <GradientPinkBlue id="area-background-gradient" />
-        <LinearGradient id="area-gradient-KfW" from={kfwColor} to={kfwColor} />
-        <LinearGradient id="area-gradient-Sparkasse" from={sparkasseColor} to={sparkasseColor} />
-        <LinearGradient id="area-gradient-DirektKredite" from={dkColor} to={dkColor} />
-        <GridRows
-          left={margin.left}
-          scale={stockValueScale}
-          width={innerWidth}
-          strokeDasharray="1,3"
-          stroke={accentColor}
-          strokeOpacity={0}
-          pointerEvents="none"
-        />
-        <GridColumns
-          top={margin.top}
-          scale={dateScale}
-          height={innerHeight}
-          strokeDasharray="1,3"
-          stroke={accentColor}
-          strokeOpacity={0.2}
-          pointerEvents="none"
-        />
-        <AreaStack
-          top={margin.top}
-          left={margin.left}
-          keys={loanTypes}
-          data={stock}
-          x={(d) => dateScale(getDate(d.data)) ?? 0}
-          y0={(d) => (stockValueScale(d[0]) || 0) }
-          y1={(d) => (stockValueScale(d[1]) || 0) }
-        >
-          {({ stacks, path }) =>
-            stacks.map((stack) => (
-              <path
-                key={`stack-${stack.key}`}
-                d={path(stack) || ''}
-                stroke="transparent"
-                fill={`url(#area-gradient-${stack.key})`}
-              />
-            ))
-          }
-        </AreaStack>
-        {innerWidth > 400 && (
-          <Axis
-            key="axis-x"
-            orientation={Orientation.bottom}
-            top={innerHeight - 25}
-            scale={dateScale}
-            tickFormat={(v: any, i: number) => v instanceof Date ? dateFormatter(v) : ""}
-            stroke={accentColor}
-            tickStroke={accentColor}
-            tickLabelProps={dateTickLabelProps}
-            tickValues={undefined}
-            numTicks={6}
-            label={"Date"}
-            labelProps={{
-              fill: accentColor,
-              fontFamily: 'sans-serif',
-              fontSize: 12,
-              paintOrder: 'stroke',
-              stroke: '#000',
-              strokeWidth: 0,
-              textAnchor: 'start',
-              x: 30,
-              y: 18,
-            }}
-          />)
-        }
-        {innerHeight > 300 && (
-          <Axis
-            key="axis-y"
-            orientation={Orientation.left}
-            left={20}
-            scale={stockValueScale}
-            tickFormat={(v: any, i: number) => v}
-            stroke={accentColor}
-            tickStroke={accentColor}
-            tickLabelProps={eurTickLabelProps}
-            tickValues={undefined}
-            numTicks={6}
-            label={"EUR"}
-            labelProps={{
-              fill: accentColor,
-              fontFamily: 'sans-serif',
-              fontSize: 12,
-              paintOrder: 'stroke',
-              stroke: '#000',
-              strokeWidth: 0,
-              textAnchor: 'start',
-              x: -30,
-              y: -5,
-            }}
-          />)
-        }
-        <Bar
-          x={margin.left}
-          y={margin.top}
-          width={innerWidth}
-          height={innerHeight}
-          fill="transparent"
-          rx={14}
-          onTouchStart={handleTooltip}
-          onTouchMove={handleTooltip}
-          onMouseMove={handleTooltip}
-          onMouseLeave={() => hideTooltip()}
-        />
-        <Line
-          from={{ x: margin.left + dateScale(loanProperties.RefinanceSparkasse), y: margin.top }}
-          to={{ x: margin.left + dateScale(loanProperties.RefinanceSparkasse), y: innerHeight + margin.top }}
-          stroke={accentColorRetire}
-          strokeWidth={2}
-          pointerEvents="none"
-          strokeDasharray="5,2"
-        />
-        <Line
-          from={{ x: margin.left + dateScale(loanProperties.RefinanceKfw), y: margin.top }}
-          to={{ x: margin.left + dateScale(loanProperties.RefinanceKfw), y: innerHeight + margin.top }}
-          stroke={accentColorDeath}
-          strokeWidth={2}
-          pointerEvents="none"
-          strokeDasharray="5,2"
-        />
-        {tooltipData && (
-          <g>
-            <Line
-              from={{ x: tooltipLeft, y: margin.top }}
-              to={{ x: tooltipLeft, y: innerHeight + margin.top }}
-              stroke={accentColorDark}
-              strokeWidth={2}
-              pointerEvents="none"
-              strokeDasharray="5,2"
-            />
-            <circle
-              cx={tooltipLeft}
-              cy={(tooltipTop || 0) + 1}
-              r={4}
-              fill="black"
-              fillOpacity={0.1}
-              stroke="black"
-              strokeOpacity={0.1}
-              strokeWidth={2}
-              pointerEvents="none"
-            />
-            <circle
-              cx={tooltipLeft}
-              cy={tooltipTop}
-              r={4}
-              fill={accentColorDark}
-              stroke="white"
-              strokeWidth={2}
-              pointerEvents="none"
-            />
-          </g>
-        )}
+        <LinearGradient id="area-background-gradient" from={background} to={background2} />
+        <text x="250" y="150"
+          fontFamily='sans-serif'
+          fontSize="55"
+          color="white">
+          Loading...
+        </text>
       </svg>
+    </ScaleSVG>
+  </>;
+
+  return (
+    <>
+      <ScaleSVG width={props.width} height={props.height}>
+        <svg width={props.width} height={props.height} ref={containerRef}>
+          <rect
+            x={0}
+            y={0}
+            width={props.width}
+            height={props.height}
+            fill="url(#area-background-gradient)"
+            rx={14}
+          />
+          <GradientPinkBlue id="area-background-gradient" />
+          <LinearGradient id="area-gradient-KfW" from={kfwColor} to={kfwColor} />
+          <LinearGradient id="area-gradient-Sparkasse" from={sparkasseColor} to={sparkasseColor} />
+          <LinearGradient id="area-gradient-DirektKredite" from={dkColor} to={dkColor} />
+          <GridRows
+            left={margin.left}
+            scale={stockValueScale}
+            width={innerWidth}
+            strokeDasharray="1,3"
+            stroke={accentColor}
+            strokeOpacity={0}
+            pointerEvents="none"
+          />
+          <GridColumns
+            top={margin.top}
+            scale={dateScale}
+            height={innerHeight}
+            strokeDasharray="1,3"
+            stroke={accentColor}
+            strokeOpacity={0.2}
+            pointerEvents="none"
+          />
+          <AreaStack
+            top={margin.top}
+            left={margin.left}
+            keys={loanTypes}
+            data={stock}
+            x={(d) => dateScale(getDate(d.data)) ?? 0}
+            y0={(d) => (stockValueScale(d[0]) || 0)}
+            y1={(d) => (stockValueScale(d[1]) || 0)}
+          >
+            {({ stacks, path }) =>
+              stacks.map((stack) => (
+                <path
+                  key={`stack-${stack.key}`}
+                  d={path(stack) || ''}
+                  stroke="transparent"
+                  fill={`url(#area-gradient-${stack.key})`}
+                />
+              ))
+            }
+          </AreaStack>
+          {innerWidth > 400 && (
+            <Axis
+              key="axis-x"
+              orientation={Orientation.bottom}
+              top={innerHeight - 25}
+              scale={dateScale}
+              tickFormat={(v: any, i: number) => v instanceof Date ? dateFormatter(v) : ""}
+              stroke={accentColor}
+              tickStroke={accentColor}
+              tickLabelProps={dateTickLabelProps}
+              tickValues={undefined}
+              numTicks={6}
+              label={"Date"}
+              labelProps={{
+                fill: accentColor,
+                fontFamily: 'sans-serif',
+                fontSize: 12,
+                paintOrder: 'stroke',
+                stroke: '#000',
+                strokeWidth: 0,
+                textAnchor: 'start',
+                x: 30,
+                y: 18,
+              }}
+            />)
+          }
+          {innerHeight > 300 && (
+            <Axis
+              key="axis-y"
+              orientation={Orientation.left}
+              left={20}
+              scale={stockValueScale}
+              tickFormat={(v: any, i: number) => v}
+              stroke={accentColor}
+              tickStroke={accentColor}
+              tickLabelProps={eurTickLabelProps}
+              tickValues={undefined}
+              numTicks={6}
+              label={"EUR"}
+              labelProps={{
+                fill: accentColor,
+                fontFamily: 'sans-serif',
+                fontSize: 12,
+                paintOrder: 'stroke',
+                stroke: '#000',
+                strokeWidth: 0,
+                textAnchor: 'start',
+                x: -30,
+                y: -5,
+              }}
+            />)
+          }
+          <Bar
+            x={margin.left}
+            y={margin.top}
+            width={innerWidth}
+            height={innerHeight}
+            fill="transparent"
+            rx={14}
+            onTouchStart={handleTooltip}
+            onTouchMove={handleTooltip}
+            onMouseMove={handleTooltip}
+            onMouseLeave={() => hideTooltip()}
+          />
+          <Line
+            from={{ x: margin.left + dateScale(loanProperties.RefinanceSparkasse), y: margin.top }}
+            to={{ x: margin.left + dateScale(loanProperties.RefinanceSparkasse), y: innerHeight + margin.top }}
+            stroke={accentColorRetire}
+            strokeWidth={2}
+            pointerEvents="none"
+            strokeDasharray="5,2"
+          />
+          <Line
+            from={{ x: margin.left + dateScale(loanProperties.RefinanceKfw), y: margin.top }}
+            to={{ x: margin.left + dateScale(loanProperties.RefinanceKfw), y: innerHeight + margin.top }}
+            stroke={accentColorDeath}
+            strokeWidth={2}
+            pointerEvents="none"
+            strokeDasharray="5,2"
+          />
+          {tooltipData && (
+            <g>
+              <Line
+                from={{ x: tooltipLeft, y: margin.top }}
+                to={{ x: tooltipLeft, y: innerHeight + margin.top }}
+                stroke={accentColorDark}
+                strokeWidth={2}
+                pointerEvents="none"
+                strokeDasharray="5,2"
+              />
+              <circle
+                cx={tooltipLeft}
+                cy={(tooltipTop || 0) + 1}
+                r={4}
+                fill="black"
+                fillOpacity={0.1}
+                stroke="black"
+                strokeOpacity={0.1}
+                strokeWidth={2}
+                pointerEvents="none"
+              />
+              <circle
+                cx={tooltipLeft}
+                cy={tooltipTop}
+                r={4}
+                fill={accentColorDark}
+                stroke="white"
+                strokeWidth={2}
+                pointerEvents="none"
+              />
+            </g>
+          )}
+        </svg>
       </ScaleSVG>
       {tooltipData && (
         <div>
@@ -358,10 +358,10 @@ const TilgungChart = (props: any) => {
             style={tooltipStyles}
           >
             <>
-            <b>Total: {formatNumber(getTotalValue(tooltipData as TilgungDataPoint))}</b><br/>
-            Sparkasse: {formatNumber((tooltipData as TilgungDataPoint).Sparkasse)}<br/>
-            KfW: {formatNumber((tooltipData as TilgungDataPoint).KfW)}<br/>
-            DirektKredite: {formatNumber((tooltipData as TilgungDataPoint).DirektKredite)}<br/>
+              <b>Total: {formatNumber(getTotalValue(tooltipData as TilgungDataPoint))}</b><br />
+              Sparkasse: {formatNumber((tooltipData as TilgungDataPoint).Sparkasse)}<br />
+              KfW: {formatNumber((tooltipData as TilgungDataPoint).KfW)}<br />
+              DirektKredite: {formatNumber((tooltipData as TilgungDataPoint).DirektKredite)}<br />
             </>
           </TooltipInPortal>
 

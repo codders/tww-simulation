@@ -1,7 +1,6 @@
 import { Sanierung } from "../model/sanierung";
 
-export class WarmCostGenerator
-{
+export class WarmCostGenerator {
     sanierung: Sanierung;
     gasPreisEuroProkWh: number;
     stromPreisEuroProkWh: number;
@@ -26,16 +25,16 @@ export class WarmCostGenerator
     getNebenkosten(variant: number) {
         if (variant === 1) {
             return this.sanierung.getGasBasisPreisProQMProMonat()
-                 + (this.sanierung.getGasverbrauchkWhProQMProMonatVariant1() * this.getGasPreisEuroProkWh())
-                 + this.sanierung.getStromBasisPreisProQMProMonat()
-                 + (this.sanierung.getStromverbrauchkWhProQMProMonatVariant1() * this.getStromPreisEuroProkWh())
-                 + this.sanierung.getHausnebenkostenProQMProMonatVariant1();
+                + (this.sanierung.getGasverbrauchkWhProQMProMonatVariant1() * this.getGasPreisEuroProkWh())
+                + this.sanierung.getStromBasisPreisProQMProMonat()
+                + (this.sanierung.getStromverbrauchkWhProQMProMonatVariant1() * this.getStromPreisEuroProkWh())
+                + this.sanierung.getHausnebenkostenProQMProMonatVariant1();
         }
         if (variant === 2) {
             return this.sanierung.getStromBasisPreisProQMProMonat()
-                 + (this.sanierung.getStromverbrauchkWhProQMProMonatVariant2() * this.getStromPreisEuroProkWh())
-                 + this.sanierung.getHausnebenkostenProQMProMonatVariant2()
-                 + this.sanierung.getBetriebskostenProQMProMonatVariant2();
+                + (this.sanierung.getStromverbrauchkWhProQMProMonatVariant2() * this.getStromPreisEuroProkWh())
+                + this.sanierung.getHausnebenkostenProQMProMonatVariant2()
+                + this.sanierung.getBetriebskostenProQMProMonatVariant2();
         }
         throw new Error("Invalid Variant")
     }
@@ -43,12 +42,12 @@ export class WarmCostGenerator
         return [
             {
                 "Nebenkosten": this.getNebenkosten(1),
-                "Variant": 1,    
+                "Variant": 1,
             },
             {
                 "Nebenkosten": this.getNebenkosten(2),
                 "Variant": 2,
-            }        
+            }
         ]
     }
 };

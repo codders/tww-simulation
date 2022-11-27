@@ -1,7 +1,6 @@
 import { Sanierung } from "../model/sanierung";
 
-export class DebtGenerator
-{
+export class DebtGenerator {
     sanierung: Sanierung;
     direktKredite: number;
 
@@ -23,10 +22,10 @@ export class DebtGenerator
     }
     generateVariant(variant: number) {
         return {
-                "DirektKredite": this.getTotalDKs(variant),
-                "Kfw": this.getKfwLoanSize(variant),
-                "Sparkasse": this.sanierung.getSparkasseOutstandingLoanAmount(),
-                "Variant": variant,
-            }
+            "DirektKredite": this.getTotalDKs(variant),
+            "Kfw": this.getKfwLoanSize(variant),
+            "Sparkasse": this.sanierung.getSparkasseOutstandingLoanAmount(),
+            "Variant": variant,
+        }
     }
 };

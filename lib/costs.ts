@@ -1,8 +1,7 @@
 import { tickStep } from "d3-array";
 import { Sanierung } from "../model/sanierung";
 
-export class ColdCostGenerator
-{
+export class ColdCostGenerator {
     sanierung: Sanierung;
     direktKredite: number;
     dkZinsen: number;
@@ -39,7 +38,7 @@ export class ColdCostGenerator
         return this.sanierung.getSparkasseOriginalLoanAmount() * this.sanierung.getSparkasseZinssatz();
     }
     getFinancingCosts(variant: number) {
-        return this.getSparkasseTilgungAmount() 
+        return this.getSparkasseTilgungAmount()
             + this.getSparkasseZinsenAmount()
             + this.getDkTilgungAmount(variant)
             + this.getDkZinsenAmount(variant)
@@ -83,7 +82,7 @@ export class ColdCostGenerator
                 "Sparkasse Tilgung": this.getSparkasseTilgungAmount().toFixed(0),
                 "Sparkasse Zinsen": this.getSparkasseZinsenAmount().toFixed(0),
                 "Total Costs": this.getTotalCosts(1).toFixed(0),
-                "Variant": 1,    
+                "Variant": 1,
             },
             {
                 "DK Tilgung": this.getDkTilgungAmount(2).toFixed(0),
@@ -95,7 +94,7 @@ export class ColdCostGenerator
                 "Sparkasse Zinsen": this.getSparkasseZinsenAmount().toFixed(0),
                 "Total Costs": this.getTotalCosts(2).toFixed(0),
                 "Variant": 2,
-            }        
+            }
         ]
     }
 };

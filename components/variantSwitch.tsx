@@ -10,8 +10,8 @@ export const VariantSwitch = (props: any) => {
 
     return (
         <>
-        <h3>Variant {apiOptions.variant}</h3>
-        <Switch onChange={setChecked} checked={apiOptions.variant === 2} uncheckedIcon={false} checkedIcon={false} onColor={"#888"}/>
+            <h3>Variant {apiOptions.variant}</h3>
+            <Switch onChange={setChecked} checked={apiOptions.variant === 2} uncheckedIcon={false} checkedIcon={false} onColor={"#888"} />
         </>
     );
 }

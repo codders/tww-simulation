@@ -2,7 +2,7 @@ import { createContext, useContext } from 'react';
 import { sanierung } from '../model/sanierung';
 
 const ApiContext = createContext({
-    apiOptions: { 
+    apiOptions: {
         direktKreditTilgung: 0.5,
         direktKreditZinsen: 0.8,
         direktKredite: 160000,

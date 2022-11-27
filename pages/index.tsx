@@ -7,7 +7,7 @@ import { Header } from './_header'
 const Home: NextPage = () => {
   return (
     <div className={styles.container}>
-      <Header/>
+      <Header />
 
       <main className={styles.main}>
         <div className={styles.logo}>

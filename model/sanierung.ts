@@ -70,7 +70,7 @@ export class Sanierung {
         if (variant === 2) {
             return this.sanierung.NettoBaukostenVariant2;
         }
-        throw new Error("Invalid Variant")    
+        throw new Error("Invalid Variant")
     }
     getBruttoBaukosten(variant: number) {
         return this.getNettoBaukosten(variant) * 1.19;

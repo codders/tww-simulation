@@ -10,8 +10,7 @@ function debtAfterNextPayment(currentDebt: number, zinsen: number, annuity: numb
     return currentDebt - payment;
 }
 
-export class TilgungGenerator
-{
+export class TilgungGenerator {
     sanierung: Sanierung;
     direktKredite: number;
     dkZinsen: number;

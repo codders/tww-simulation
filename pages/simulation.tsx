@@ -1,7 +1,7 @@
 import type { NextPage } from 'next'
 import { useReducer } from 'react'
 import { ApiConsumer } from '../components/apiContext'
-import { DirektKreditSlider,  DirektKreditTilgungSlider, DirektKreditZinsenSlider } from '../components/direktKredite'
+import { DirektKreditSlider, DirektKreditTilgungSlider, DirektKreditZinsenSlider } from '../components/direktKredite'
 import { GasPreisSlider, StromPreisSlider } from '../components/energieVersorgung'
 import VariantSwitch from '../components/variantSwitch'
 import { sanierung } from '../model/sanierung'
@@ -19,7 +19,7 @@ const useStateWithMerge = (initialState: any) => useReducer(
 );
 
 const NetAssetsProjected: NextPage = () => {
-    const [ apiOptions, setApiOptions ] = useStateWithMerge({ 
+    const [apiOptions, setApiOptions] = useStateWithMerge({
         direktKreditTilgung: 0.5,
         direktKreditZinsen: 0.8,
         direktKredite: 160000,
@@ -29,18 +29,18 @@ const NetAssetsProjected: NextPage = () => {
         variant: 1
     })
     const urlForOptions = (options: any) => {
-        const {url, ...queryOptions} = options;
+        const { url, ...queryOptions } = options;
         return url + "?" + new URLSearchParams(queryOptions)
     }
 
     return (
         <ApiConsumer value={{ apiOptions, updateApiOptions: setApiOptions }}>
             <div className={styles.container}>
-                <Header/>
+                <Header />
 
-                <main className={styles.main} style={{paddingTop: "0px"}}>
+                <main className={styles.main} style={{ paddingTop: "0px" }}>
                     <h1 className={styles.title}>
-                    Miete und Schulden
+                        Miete und Schulden
                     </h1>
 
                     <div>
@@ -49,38 +49,38 @@ const NetAssetsProjected: NextPage = () => {
 
                     <div className={styles.grid}>
                         <div>
-                            <h1 style={{width:'100%', margin: '0px', textAlign:'center'}}>Annual Costs</h1>
+                            <h1 style={{ width: '100%', margin: '0px', textAlign: 'center' }}>Annual Costs</h1>
                             <Graph width="700" height="600" dataSource={urlForOptions(apiOptions)} />
                         </div>
                         <div>
-                            <h1 style={{width:'100%', margin: '0px', textAlign:'center'}}>Total Debt Variant {apiOptions.variant}</h1>
+                            <h1 style={{ width: '100%', margin: '0px', textAlign: 'center' }}>Total Debt Variant {apiOptions.variant}</h1>
                             <PieChart width="700" height="600" dataSource={urlForOptions(apiOptions)} />
                         </div>
                     </div>
 
-                    <div style={{width:'100%'}}>
-                        <h2 style={{width:'100%', margin: '0px', textAlign:'center'}}>Tilgung Variant {apiOptions.variant}</h2>
+                    <div style={{ width: '100%' }}>
+                        <h2 style={{ width: '100%', margin: '0px', textAlign: 'center' }}>Tilgung Variant {apiOptions.variant}</h2>
                         <TilgungChart width="1400" height="100" dataSource={urlForOptions(apiOptions)} />
                     </div>
 
                     <div className={styles.sliderGrid}>
                         <div>
-                            <VariantSwitch/>
+                            <VariantSwitch />
                         </div>
                         <div>
-                            <DirektKreditSlider/>
+                            <DirektKreditSlider />
                         </div>
                         <div>
-                            <DirektKreditZinsenSlider/>
+                            <DirektKreditZinsenSlider />
                         </div>
                         <div>
-                            <DirektKreditTilgungSlider/>
+                            <DirektKreditTilgungSlider />
                         </div>
                         <div>
-                            <StromPreisSlider/>
+                            <StromPreisSlider />
                         </div>
                         <div>
-                            <GasPreisSlider/>
+                            <GasPreisSlider />
                         </div>
                     </div>
 
@@ -90,5 +90,5 @@ const NetAssetsProjected: NextPage = () => {
         </ApiConsumer>
     )
 }
-  
+
 export default NetAssetsProjected
