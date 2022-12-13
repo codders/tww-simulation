@@ -50,7 +50,7 @@ export class TilgungGenerator {
         sparkasseSum = this.sanierung.getSparkasseOutstandingLoanAmount();
         let kfwSum = this.getKfwLoanSize(variant);
         const kfwAnnuity = calculateStartAnnuity(kfwSum, this.sanierung.getKfwZinssatz(), this.sanierung.getKfwTilgung());
-        while ((dkSum > 0 && this.dkTilgung > 0) || sparkasseSum > 0 || kfwSum || 0) {
+        while ((dkSum > 0 && this.dkTilgung > 0) || sparkasseSum > 0 || kfwSum > 0) {
             dataPoints.push({
                 DirektKredite: dkSum,
                 KfW: kfwSum,
