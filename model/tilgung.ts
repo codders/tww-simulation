@@ -40,16 +40,29 @@ export class TilgungGenerator {
         }
         return Math.max(this.sanierung.getUncoveredCosts(variant) - this.direktKredite, 0);
     }
+    getDkAnnuity(variant: number) {
+        const dkSum = this.getTotalDKs(variant);
+        return calculateStartAnnuity(dkSum, this.dkZinsen, this.dkTilgung);
+    }
+    getSparkasseAnnuity() {
+        const sparkasseSum = this.sanierung.getSparkasseOriginalLoanAmount();
+        return calculateStartAnnuity(sparkasseSum, this.sanierung.getSparkasseZinssatz(), this.sanierung.getSparkasseTilgung());
+    }
+    getKfwAnnuity(variant: number) {
+        const kfwSum = this.getKfwLoanSize(variant);
+        return calculateStartAnnuity(kfwSum, this.sanierung.getKfwZinssatz(), this.sanierung.getKfwTilgung());
+    }
+    getTotalAnnuity(variant: number) {
+        return this.getDkAnnuity(variant)
+            + this.getSparkasseAnnuity()
+            + this.getKfwAnnuity(variant);
+    }
     generateVariant(variant: number) {
         const dataPoints = [];
         let year = 2023;
         let dkSum = this.getTotalDKs(variant);
-        const dkAnnuity = calculateStartAnnuity(dkSum, this.dkZinsen, this.dkTilgung);
-        let sparkasseSum = this.sanierung.getSparkasseOriginalLoanAmount();
-        const sparkasseAnnuity = calculateStartAnnuity(sparkasseSum, this.sanierung.getSparkasseZinssatz(), this.sanierung.getSparkasseTilgung());
-        sparkasseSum = this.sanierung.getSparkasseOutstandingLoanAmount();
+        let sparkasseSum = this.sanierung.getSparkasseOutstandingLoanAmount();
         let kfwSum = this.getKfwLoanSize(variant);
-        const kfwAnnuity = calculateStartAnnuity(kfwSum, this.sanierung.getKfwZinssatz(), this.sanierung.getKfwTilgung());
         while ((dkSum > 0 && this.dkTilgung > 0) || sparkasseSum > 0 || kfwSum > 0) {
             dataPoints.push({
                 DirektKredite: dkSum,
@@ -58,9 +71,9 @@ export class TilgungGenerator {
                 Variant: variant,
                 date: new Date(year, 1, 1)
             })
-            dkSum = debtAfterNextPayment(dkSum, this.dkZinsen, dkAnnuity);
-            kfwSum = debtAfterNextPayment(kfwSum, this.sanierung.getKfwZinssatz(), kfwAnnuity);
-            sparkasseSum = debtAfterNextPayment(sparkasseSum, this.sanierung.getSparkasseZinssatz(), sparkasseAnnuity);
+            dkSum = debtAfterNextPayment(dkSum, this.dkZinsen, this.getDkAnnuity(variant));
+            kfwSum = debtAfterNextPayment(kfwSum, this.sanierung.getKfwZinssatz(), this.getKfwAnnuity(variant));
+            sparkasseSum = debtAfterNextPayment(sparkasseSum, this.sanierung.getSparkasseZinssatz(), this.getSparkasseAnnuity());
             year = year + 1;
         }
         return dataPoints;

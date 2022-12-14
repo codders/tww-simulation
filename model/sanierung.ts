@@ -1,4 +1,4 @@
-type SanierungParams = {
+export type SanierungParams = {
     "BetriebskostenVariant2": number,
     "GasBasisPreis": number,
     "GasverbrauchkWhVariant1": number,
@@ -9,6 +9,7 @@ type SanierungParams = {
     "KfwTilgung": number,
     "KfwZinssatz": number,
     "Kontostand": number,
+    "KontoPuffer": number,
     "NettoBaukostenVariant1": number,
     "NettoBaukostenVariant2": number,
     "OldDKs": number,
@@ -35,7 +36,8 @@ const basisParameters: SanierungParams = {
     InstandhaltungPerQM: 10,
     KfwTilgung: 0.0333,
     KfwZinssatz: 0.0122,
-    Kontostand: 110000,
+    KontoPuffer: 20000,
+    Kontostand: 111000,
     NettoBaukostenVariant1: 632199.42,
     NettoBaukostenVariant2: 1074329.74,
     OldDKs: 840000,
@@ -79,7 +81,10 @@ export class Sanierung {
         return this.sanierung.OldDKs + this.sanierung.SanierungsDKs;
     }
     getUncoveredCosts(variant: number) {
-        return this.getBruttoBaukosten(variant) - this.sanierung.Kontostand - this.sanierung.SanierungsDKs;
+        return this.getBruttoBaukosten(variant)
+            - this.sanierung.Kontostand
+            - this.sanierung.SanierungsDKs
+            + this.sanierung.KontoPuffer;
     }
     getKfwZinssatz() {
         return this.sanierung.KfwZinssatz;
