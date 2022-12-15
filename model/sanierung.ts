@@ -38,7 +38,7 @@ export const variants: Bauvariant[] = [
     },
     {
         "Betriebskosten": 1980,
-        "GasverbrauchkWh": 90269.5,
+        "GasverbrauchkWh": 0,
         "Hausnebenkosten": 43.63,
         "NettoBaukosten": 1072413.77,
         "StromverbrauchkWh": (15760 + 10678),
@@ -46,7 +46,7 @@ export const variants: Bauvariant[] = [
     },
     {
         "Betriebskosten": 1980,
-        "GasverbrauchkWh": 90269.5,
+        "GasverbrauchkWh": 0,
         "Hausnebenkosten": 43.63,
         "NettoBaukosten": 1083338.82,
         "StromverbrauchkWh": (15760 + 10678),
@@ -54,7 +54,7 @@ export const variants: Bauvariant[] = [
     },
     {
         "Betriebskosten": 1980,
-        "GasverbrauchkWh": 90269.5,
+        "GasverbrauchkWh": 0,
         "Hausnebenkosten": 43.63,
         "NettoBaukosten": 1145887.65,
         "StromverbrauchkWh": (15760 + 10678),
