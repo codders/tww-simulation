@@ -1,4 +1,4 @@
-import { Sanierung } from "./sanierung";
+import { dkReferenceWerte, Sanierung } from "./sanierung";
 
 export class ColdCostGenerator {
     sanierung: Sanierung;
@@ -9,13 +9,16 @@ export class ColdCostGenerator {
     constructor(sanierung: Sanierung) {
         this.sanierung = sanierung;
         this.direktKredite = 0;
-        this.dkZinsen = 0.008;
-        this.dkTilgung = 0.005;
+        this.dkZinsen = dkReferenceWerte.Zinsen;
+        this.dkTilgung = dkReferenceWerte.Tilgung;
     }
     getKfwLoanSize(variant: number) {
         return Math.max(this.sanierung.getUncoveredCosts(variant) - this.direktKredite, 0);
     }
     getKfwZinsenPayment(variant: number) {
+        if (variant === 1) {
+            return 0;
+        }
         return this.getKfwLoanSize(variant) * this.sanierung.getKfwZinssatz();
     }
     getNettoBaukosten(variant: number) {
@@ -28,6 +31,9 @@ export class ColdCostGenerator {
         return this.getTotalDKs(variant) * this.dkZinsen;
     }
     getKfwTilgungPayment(variant: number) {
+        if (variant === 1) {
+            return 0;
+        }
         return this.getKfwLoanSize(variant) * this.sanierung.getKfwTilgung();
     }
     getSparkasseTilgungAmount() {
@@ -71,29 +77,16 @@ export class ColdCostGenerator {
         this.dkTilgung = tilgung / 100;
     }
     generateVariants() {
-        return [
-            {
-                "DK Tilgung": this.getDkTilgungAmount(1).toFixed(0),
-                "DK Zinsen": this.getDkZinsenAmount(1).toFixed(0),
-                "KFW Tilgung": "0",
-                "KFW Zinsen": "0",
-                "Kaltmiete": this.getKaltMiete(1),
-                "Sparkasse Tilgung": this.getSparkasseTilgungAmount().toFixed(0),
-                "Sparkasse Zinsen": this.getSparkasseZinsenAmount().toFixed(0),
-                "Total Costs": this.getTotalCosts(1).toFixed(0),
-                "Variant": 1,
-            },
-            {
-                "DK Tilgung": this.getDkTilgungAmount(2).toFixed(0),
-                "DK Zinsen": this.getDkZinsenAmount(2).toFixed(0),
-                "KFW Tilgung": this.getKfwTilgungPayment(2).toFixed(0),
-                "KFW Zinsen": this.getKfwZinsenPayment(2).toFixed(0),
-                "Kaltmiete": this.getKaltMiete(2),
-                "Sparkasse Tilgung": this.getSparkasseTilgungAmount().toFixed(0),
-                "Sparkasse Zinsen": this.getSparkasseZinsenAmount().toFixed(0),
-                "Total Costs": this.getTotalCosts(2).toFixed(0),
-                "Variant": 2,
-            }
-        ]
+        return this.sanierung.variants.map(v => ({
+            "DK Tilgung": this.getDkTilgungAmount(v.Variant).toFixed(0),
+            "DK Zinsen": this.getDkZinsenAmount(v.Variant).toFixed(0),
+            "KFW Tilgung": this.getKfwTilgungPayment(v.Variant).toFixed(0),
+            "KFW Zinsen": this.getKfwZinsenPayment(v.Variant).toFixed(0),
+            "Kaltmiete": this.getKaltMiete(v.Variant),
+            "Sparkasse Tilgung": this.getSparkasseTilgungAmount().toFixed(0),
+            "Sparkasse Zinsen": this.getSparkasseZinsenAmount().toFixed(0),
+            "Total Costs": this.getTotalCosts(v.Variant).toFixed(0),
+            "Variant": v.Variant,
+        }))
     }
 };

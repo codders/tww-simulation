@@ -4,7 +4,7 @@ import { ApiConsumer } from '../components/apiContext'
 import { DirektKreditSlider, DirektKreditTilgungSlider, DirektKreditZinsenSlider } from '../components/direktKredite'
 import { GasPreisSlider, StromPreisSlider } from '../components/energieVersorgung'
 import VariantSwitch from '../components/variantSwitch'
-import { sanierung } from '../model/sanierung'
+import { dkReferenceWerte, sanierung } from '../model/sanierung'
 import styles from '../styles/Home.module.css'
 import { Footer } from './_footer'
 import Graph from './_graph'
@@ -20,8 +20,8 @@ const useStateWithMerge = (initialState: any) => useReducer(
 
 const NetAssetsProjected: NextPage = () => {
     const [apiOptions, setApiOptions] = useStateWithMerge({
-        direktKreditTilgung: 0.5,
-        direktKreditZinsen: 0.8,
+        direktKreditTilgung: dkReferenceWerte.Tilgung * 100,
+        direktKreditZinsen: dkReferenceWerte.Zinsen * 100,
         direktKredite: 160000,
         gasPreisCentskWh: sanierung.getGasPreisEuroProkWh() * 100,
         stromPreisCentskWh: sanierung.getStromPreisEuroProkWh() * 100,

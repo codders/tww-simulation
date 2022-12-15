@@ -23,20 +23,12 @@ export class WarmCostGenerator {
         this.stromPreisEuroProkWh = stromPreisEuroProkWh
     }
     getNebenkosten(variant: number) {
-        if (variant === 1) {
-            return this.sanierung.getGasBasisPreisProQMProMonat()
-                + (this.sanierung.getGasverbrauchkWhProQMProMonatVariant1() * this.getGasPreisEuroProkWh())
-                + this.sanierung.getStromBasisPreisProQMProMonat()
-                + (this.sanierung.getStromverbrauchkWhProQMProMonatVariant1() * this.getStromPreisEuroProkWh())
-                + this.sanierung.getHausnebenkostenProQMProMonatVariant1();
-        }
-        if (variant === 2) {
-            return this.sanierung.getStromBasisPreisProQMProMonat()
-                + (this.sanierung.getStromverbrauchkWhProQMProMonatVariant2() * this.getStromPreisEuroProkWh())
-                + this.sanierung.getHausnebenkostenProQMProMonatVariant2()
-                + this.sanierung.getBetriebskostenProQMProMonatVariant2();
-        }
-        throw new Error("Invalid Variant")
+        return this.sanierung.getGasBasisPreisProQMProMonat()
+            + (this.sanierung.getGasverbrauchkWhProQMProMonat(variant) * this.getGasPreisEuroProkWh())
+            + this.sanierung.getStromBasisPreisProQMProMonat()
+            + (this.sanierung.getStromverbrauchkWhProQMProMonat(variant) * this.getStromPreisEuroProkWh())
+            + this.sanierung.getHausnebenkostenProQMProMonat(variant)
+            + this.sanierung.getBetriebskostenProQMProMonat(variant);
     }
     generateVariants() {
         return [

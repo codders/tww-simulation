@@ -1,4 +1,4 @@
-import { Sanierung } from "./sanierung";
+import { dkReferenceWerte, Sanierung } from "./sanierung";
 
 function calculateStartAnnuity(creditSum: number, zinsen: number, tilgung: number) {
     return creditSum * (zinsen + tilgung);
@@ -19,8 +19,8 @@ export class TilgungGenerator {
     constructor(sanierung: Sanierung) {
         this.sanierung = sanierung;
         this.direktKredite = 0;
-        this.dkZinsen = 0.008;
-        this.dkTilgung = 0.005;
+        this.dkZinsen = dkReferenceWerte.Zinsen;
+        this.dkTilgung = dkReferenceWerte.Tilgung;
     }
     setDirektKreditZinsen(zinsen: number) {
         this.dkZinsen = zinsen / 100;

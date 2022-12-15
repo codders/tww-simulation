@@ -1,17 +1,11 @@
 export type SanierungParams = {
-    "BetriebskostenVariant2": number,
     "GasBasisPreis": number,
-    "GasverbrauchkWhVariant1": number,
     "GasPreisEuroProkWh": number,
-    "HausnebenkostenVariant1": number,
-    "HausnebenkostenVariant2": number,
     "InstandhaltungPerQM": number,
     "KfwTilgung": number,
     "KfwZinssatz": number,
     "Kontostand": number,
     "KontoPuffer": number,
-    "NettoBaukostenVariant1": number,
-    "NettoBaukostenVariant2": number,
     "OldDKs": number,
     "SanierungsDKs": number,
     "SolidarityPercent": number,
@@ -19,27 +13,73 @@ export type SanierungParams = {
     "SparkasseOutstandingLoanAmount": number,
     "SparkasseTilgung": number,
     "SparkasseZinssatz": number,
-    "StromverbrauchkWhVariant1": number,
-    "StromverbrauchkWhVariant2": number,
     "StromPreisEuroProkWh": number,
     "StromBasisPreis": number,
     "WohnraumQM": number,
 }
 
+export type Bauvariant = {
+    "Betriebskosten": number,
+    "GasverbrauchkWh": number,
+    "Hausnebenkosten": number,
+    "NettoBaukosten": number,
+    "StromverbrauchkWh": number,
+    "Variant": number,
+}
+
+export const variants: Bauvariant[] = [
+    {
+        "Betriebskosten": 0,
+        "GasverbrauchkWh": 90269.5,
+        "Hausnebenkosten": 48.74,
+        "NettoBaukosten": 630283.46,
+        "StromverbrauchkWh": 10678,
+        "Variant": 1
+    },
+    {
+        "Betriebskosten": 1980,
+        "GasverbrauchkWh": 90269.5,
+        "Hausnebenkosten": 43.63,
+        "NettoBaukosten": 1072413.77,
+        "StromverbrauchkWh": (15760 + 10678),
+        "Variant": 2
+    },
+    {
+        "Betriebskosten": 1980,
+        "GasverbrauchkWh": 90269.5,
+        "Hausnebenkosten": 43.63,
+        "NettoBaukosten": 1083338.82,
+        "StromverbrauchkWh": (15760 + 10678),
+        "Variant": 3
+    },
+    {
+        "Betriebskosten": 1980,
+        "GasverbrauchkWh": 90269.5,
+        "Hausnebenkosten": 43.63,
+        "NettoBaukosten": 1145887.65,
+        "StromverbrauchkWh": (15760 + 10678),
+        "Variant": 4
+    },
+]
+
+export type Finanzierung = {
+    "Zinsen": number,
+    "Tilgung": number
+}
+
+export const dkReferenceWerte: Finanzierung = {
+    Tilgung: 0.003,
+    Zinsen: 0.012,
+}
+
 const basisParameters: SanierungParams = {
-    BetriebskostenVariant2: 1980,
     GasBasisPreis: 16.35,
     GasPreisEuroProkWh: 0.1065,
-    GasverbrauchkWhVariant1: 90269.5,
-    HausnebenkostenVariant1: 48.74,
-    HausnebenkostenVariant2: 43.63,
     InstandhaltungPerQM: 10,
-    KfwTilgung: 0.0333,
+    KfwTilgung: 0.0288,
     KfwZinssatz: 0.0122,
-    KontoPuffer: 20000,
+    KontoPuffer: 35000,
     Kontostand: 111000,
-    NettoBaukostenVariant1: 632199.42,
-    NettoBaukostenVariant2: 1074329.74,
     OldDKs: 840000,
     SanierungsDKs: 500000,
     SolidarityPercent: 0.1,
@@ -49,15 +89,23 @@ const basisParameters: SanierungParams = {
     SparkasseZinssatz: 0.0085,
     StromBasisPreis: 11.26,
     StromPreisEuroProkWh: 0.5633,
-    StromverbrauchkWhVariant1: 10678,
-    StromverbrauchkWhVariant2: (15760 + 10678),
     WohnraumQM: 681,
 }
 
 export class Sanierung {
     sanierung: SanierungParams
-    constructor(sanierungParams: SanierungParams) {
+    variants: Bauvariant[]
+
+    constructor(sanierungParams: SanierungParams, bauvariants: Bauvariant[]) {
         this.sanierung = sanierungParams;
+        this.variants = bauvariants;
+    }
+    getVariant(variant: number) {
+        const found = this.variants.find(v => v.Variant === variant);
+        if (found !== undefined) {
+            return found;
+        }
+        throw new Error("Invalid Variant " + variant);
     }
     getInstandhaltungsKosten() {
         return this.sanierung.InstandhaltungPerQM * this.sanierung.WohnraumQM;
@@ -66,13 +114,7 @@ export class Sanierung {
         return this.sanierung.WohnraumQM * 12 * this.sanierung.SolidarityPercent;
     }
     getNettoBaukosten(variant: number) {
-        if (variant === 1) {
-            return this.sanierung.NettoBaukostenVariant1;
-        }
-        if (variant === 2) {
-            return this.sanierung.NettoBaukostenVariant2;
-        }
-        throw new Error("Invalid Variant")
+        return this.getVariant(variant).NettoBaukosten;
     }
     getBruttoBaukosten(variant: number) {
         return this.getNettoBaukosten(variant) * 1.19;
@@ -107,8 +149,8 @@ export class Sanierung {
     getSparkasseOutstandingLoanAmount() {
         return this.sanierung.SparkasseOutstandingLoanAmount;
     }
-    getBetriebskostenProQMProMonatVariant2() {
-        return this.sanierung.BetriebskostenVariant2 / (this.sanierung.WohnraumQM * 12);
+    getBetriebskostenProQMProMonat(variant: number) {
+        return this.getVariant(variant).Betriebskosten / (this.sanierung.WohnraumQM * 12);
     }
     getGasBasisPreisProQMProMonat() {
         return this.sanierung.GasBasisPreis * 8 / this.sanierung.WohnraumQM;
@@ -116,14 +158,11 @@ export class Sanierung {
     getGasPreisEuroProkWh() {
         return this.sanierung.GasPreisEuroProkWh;
     }
-    getGasverbrauchkWhProQMProMonatVariant1() {
-        return this.sanierung.GasverbrauchkWhVariant1 / (this.sanierung.WohnraumQM * 12);
+    getGasverbrauchkWhProQMProMonat(variant: number) {
+        return this.getVariant(variant).GasverbrauchkWh / (this.sanierung.WohnraumQM * 12);
     }
-    getHausnebenkostenProQMProMonatVariant1() {
-        return this.sanierung.HausnebenkostenVariant1 * 30 / this.sanierung.WohnraumQM;
-    }
-    getHausnebenkostenProQMProMonatVariant2() {
-        return this.sanierung.HausnebenkostenVariant2 * 30 / this.sanierung.WohnraumQM;
+    getHausnebenkostenProQMProMonat(variant: number) {
+        return this.getVariant(variant).Hausnebenkosten * 30 / this.sanierung.WohnraumQM;
     }
     getStromBasisPreisProQMProMonat() {
         return this.sanierung.StromBasisPreis / this.sanierung.WohnraumQM;
@@ -131,12 +170,9 @@ export class Sanierung {
     getStromPreisEuroProkWh() {
         return this.sanierung.StromPreisEuroProkWh;
     }
-    getStromverbrauchkWhProQMProMonatVariant1() {
-        return this.sanierung.StromverbrauchkWhVariant1 / (this.sanierung.WohnraumQM * 12);
-    }
-    getStromverbrauchkWhProQMProMonatVariant2() {
-        return this.sanierung.StromverbrauchkWhVariant2 / (this.sanierung.WohnraumQM * 12);
+    getStromverbrauchkWhProQMProMonat(variant: number) {
+        return this.getVariant(variant).StromverbrauchkWh / (this.sanierung.WohnraumQM * 12);
     }
 }
 
-export const sanierung: Sanierung = new Sanierung(basisParameters);
+export const sanierung: Sanierung = new Sanierung(basisParameters, variants);
