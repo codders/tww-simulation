@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo } from 'react';
 import { numericFormatter } from 'react-number-format';
 import useSWR from 'swr';
-import { ColdCost, WarmCost } from '../model/graph';
+import { Miete } from '../model/graph';
 
 export type MieteProps = {
   dataSource: string;
@@ -14,10 +14,10 @@ function useSanierungsData(dataSource: string) {
   const { data, error } = useSWR(dataSource, fetcher)
 
   return {
-    coldData: (data?.series?.coldCosts ?? []) as ColdCost[],
     isError: error,
     isLoading: !error && !data,
-    warmData: (data?.series?.warmCosts ?? []) as WarmCost[],
+    miete: (data?.series?.miete ?? {}) as Miete,
+    variant: (data?.series?.debts?.Variant)
   }
 }
 
@@ -32,16 +32,15 @@ const formatNumber = (num: string | number) => {
 
 const MieteDisplay = (props: MieteProps) => {
 
-  const { coldData, warmData, isError } = useSanierungsData(props.dataSource);
+  const { miete, isError, variant } = useSanierungsData(props.dataSource);
 
-  if (!coldData || !warmData || warmData.length === 0 || coldData.length === 0 || isError) return <>
+  if (!miete || !miete.KaltMiete || isError) return <>
     <p>Loading...</p>
   </>;
 
   return (
     <div style={{ position: 'relative' }}>
-      <h2>Kaltmiete - Variant 1: <span>{formatNumber(coldData[0].Kaltmiete)}/qm</span>, Variant 2: <span>{formatNumber(coldData[1].Kaltmiete)}/qm</span></h2>
-      <h2>Warmmiete - Variant 1: <span>{formatNumber(coldData[0].Kaltmiete + warmData[0].Nebenkosten)}/qm</span>, Variant 2: <span>{formatNumber(coldData[1].Kaltmiete + warmData[1].Nebenkosten)}/qm</span></h2>
+      <h2>Variant {variant} - Kaltmiete <span>{formatNumber(miete.KaltMiete)}/qm</span>, Warmmiete <span>{formatNumber(miete.WarmMiete)}/qm</span></h2>
     </div>
   );
 }

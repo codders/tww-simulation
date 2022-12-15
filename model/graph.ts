@@ -1,3 +1,5 @@
+import { MieteProps } from "../pages/_miete";
+
 export type GraphData<T> = {
     name: string,
     series: T
@@ -15,9 +17,9 @@ export type ColdCost = {
     'Variant': number;
 }
 
-export type WarmCost = {
-    'Nebenkosten': number;
-    'Variant': number;
+export type Miete = {
+    "KaltMiete": number,
+    "WarmMiete": number,
 }
 
 export type DebtCollection = {
@@ -29,9 +31,9 @@ export type DebtCollection = {
 
 export type AnnualCostSeries = {
     coldCosts: ColdCost[],
-    warmCosts: WarmCost[],
     debts: DebtCollection,
     tilgung: TilgungDataPointWithVariant[],
+    miete: Miete,
 }
 
 export type TilgungDataPoint = {

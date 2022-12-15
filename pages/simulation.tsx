@@ -3,7 +3,7 @@ import { useReducer } from 'react'
 import { ApiConsumer } from '../components/apiContext'
 import { DirektKreditSlider, DirektKreditTilgungSlider, DirektKreditZinsenSlider } from '../components/direktKredite'
 import { GasPreisSlider, StromPreisSlider } from '../components/energieVersorgung'
-import VariantSwitch from '../components/variantSwitch'
+import VariantSlider from '../components/variantSlider'
 import { dkReferenceWerte, sanierung } from '../model/sanierung'
 import styles from '../styles/Home.module.css'
 import { Footer } from './_footer'
@@ -22,7 +22,7 @@ const NetAssetsProjected: NextPage = () => {
     const [apiOptions, setApiOptions] = useStateWithMerge({
         direktKreditTilgung: dkReferenceWerte.Tilgung * 100,
         direktKreditZinsen: dkReferenceWerte.Zinsen * 100,
-        direktKredite: 160000,
+        direktKredite: 200000,
         gasPreisCentskWh: sanierung.getGasPreisEuroProkWh() * 100,
         stromPreisCentskWh: sanierung.getStromPreisEuroProkWh() * 100,
         url: "/api/simulate",
@@ -65,7 +65,7 @@ const NetAssetsProjected: NextPage = () => {
 
                     <div className={styles.sliderGrid}>
                         <div>
-                            <VariantSwitch />
+                            <VariantSlider />
                         </div>
                         <div>
                             <DirektKreditSlider />

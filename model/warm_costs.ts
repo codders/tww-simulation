@@ -30,16 +30,7 @@ export class WarmCostGenerator {
             + this.sanierung.getHausnebenkostenProQMProMonat(variant)
             + this.sanierung.getBetriebskostenProQMProMonat(variant);
     }
-    generateVariants() {
-        return [
-            {
-                "Nebenkosten": this.getNebenkosten(1),
-                "Variant": 1,
-            },
-            {
-                "Nebenkosten": this.getNebenkosten(2),
-                "Variant": 2,
-            }
-        ]
+    generateVariant(variant: number) {
+        return this.getNebenkosten(variant)
     }
 };

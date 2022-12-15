@@ -76,17 +76,20 @@ export class ColdCostGenerator {
     setDirektKreditTilgung(tilgung: number) {
         this.dkTilgung = tilgung / 100;
     }
-    generateVariants() {
-        return this.sanierung.variants.map(v => ({
-            "DK Tilgung": this.getDkTilgungAmount(v.Variant).toFixed(0),
-            "DK Zinsen": this.getDkZinsenAmount(v.Variant).toFixed(0),
-            "KFW Tilgung": this.getKfwTilgungPayment(v.Variant).toFixed(0),
-            "KFW Zinsen": this.getKfwZinsenPayment(v.Variant).toFixed(0),
-            "Kaltmiete": this.getKaltMiete(v.Variant),
+    generateVariant(variant: number) {
+        return ({
+            "DK Tilgung": this.getDkTilgungAmount(variant).toFixed(0),
+            "DK Zinsen": this.getDkZinsenAmount(variant).toFixed(0),
+            "KFW Tilgung": this.getKfwTilgungPayment(variant).toFixed(0),
+            "KFW Zinsen": this.getKfwZinsenPayment(variant).toFixed(0),
+            "Kaltmiete": this.getKaltMiete(variant),
             "Sparkasse Tilgung": this.getSparkasseTilgungAmount().toFixed(0),
             "Sparkasse Zinsen": this.getSparkasseZinsenAmount().toFixed(0),
-            "Total Costs": this.getTotalCosts(v.Variant).toFixed(0),
-            "Variant": v.Variant,
-        }))
+            "Total Costs": this.getTotalCosts(variant).toFixed(0),
+            "Variant": variant,
+        })
+    }
+    generateVariants() {
+        return this.sanierung.variants.map(v => this.generateVariant(v.Variant))
     }
 };
