@@ -24,17 +24,17 @@ test("calculate Solidarbeitrag - 20221214", () => {
 })
 
 test("required DKs variant 1 - 20221214", () => {
-    expect(new Sanierung(basisParameters20221214, variants20221214).getUncoveredCosts(1).toFixed(2)).toBe("159037.32")
+    expect(new Sanierung(basisParameters20221214, variants20221214).getUncoveredCosts(1).toFixed(2)).toBe("659037.32")
 })
 
 test("required DKs variant 2 - 20221214", () => {
-    expect(new Sanierung(basisParameters20221214, variants20221214).getUncoveredCosts(2).toFixed(2)).toBe("687452.39")
+    expect(new Sanierung(basisParameters20221214, variants20221214).getUncoveredCosts(2).toFixed(2)).toBe("1187452.39")
 })
 
 test("required DKs variant 3 - 20221214", () => {
-    expect(sanierung.getUncoveredCosts(3).toFixed(2)).toBe("713173.20")
+    expect(sanierung.getUncoveredCosts(3).toFixed(2)).toBe("1213173.20")
 })
 
 test("required DKs variant 4 - 20221214", () => {
-    expect(sanierung.getUncoveredCosts(4).toFixed(2)).toBe("787606.30")
+    expect(sanierung.getUncoveredCosts(4).toFixed(2)).toBe("1287606.30")
 })

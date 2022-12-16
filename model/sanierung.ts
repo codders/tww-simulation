@@ -81,7 +81,7 @@ const basisParameters: SanierungParams = {
     KontoPuffer: 35000,
     Kontostand: 111000,
     OldDKs: 840000,
-    SanierungsDKs: 500000,
+    SanierungsDKs: 0,
     SolidarityPercent: 0.1,
     SparkasseOriginalLoanAmount: 1000000,
     SparkasseOutstandingLoanAmount: 968000,
