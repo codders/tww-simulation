@@ -39,10 +39,6 @@ const NetAssetsProjected: NextPage = () => {
                 <Header />
 
                 <main className={styles.main} style={{ paddingTop: "0px" }}>
-                    <h1 className={styles.title}>
-                        Miete und Schulden
-                    </h1>
-
                     <div>
                         <MieteDisplay dataSource={urlForOptions(apiOptions)} />
                     </div>

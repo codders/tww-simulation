@@ -19,6 +19,7 @@ export type SanierungParams = {
 }
 
 export type Bauvariant = {
+    "Beschreibung": string,
     "Betriebskosten": number,
     "GasverbrauchkWh": number,
     "Hausnebenkosten": number,
@@ -29,6 +30,7 @@ export type Bauvariant = {
 
 export const variants: Bauvariant[] = [
     {
+        "Beschreibung": "We do the minimal – Kellerdeckendämmung and Dach (inkl. Photovoltaik)",
         "Betriebskosten": 0,
         "GasverbrauchkWh": 90269.5,
         "Hausnebenkosten": 48.74,
@@ -37,6 +39,7 @@ export const variants: Bauvariant[] = [
         "Variant": 1
     },
     {
+        "Beschreibung": "We do everything – Dach, Balkone, Kellerdeckendämmung, Photovoltaik, Außendämmung, Fenster / Türen und Heizung",
         "Betriebskosten": 1980,
         "GasverbrauchkWh": 0,
         "Hausnebenkosten": 43.63,
@@ -45,6 +48,7 @@ export const variants: Bauvariant[] = [
         "Variant": 2
     },
     {
+        "Beschreibung": "We do everything, updated angebot (per 14. Dez) – Dach, Balkone, Kellerdeckendämmung, Photovoltaik, Außendämmung, Fenster / Türen und Heizung",
         "Betriebskosten": 1980,
         "GasverbrauchkWh": 0,
         "Hausnebenkosten": 43.63,
@@ -53,6 +57,7 @@ export const variants: Bauvariant[] = [
         "Variant": 3
     },
     {
+        "Beschreibung": "We do everything, updated angebot (per 14. Dez), plus Balkonverschiebung – Dach, Balkone, Kellerdeckendämmung, Photovoltaik, Außendämmung, Fenster / Türen und Heizung",
         "Betriebskosten": 1980,
         "GasverbrauchkWh": 0,
         "Hausnebenkosten": 43.63,
@@ -99,6 +104,9 @@ export class Sanierung {
     constructor(sanierungParams: SanierungParams, bauvariants: Bauvariant[]) {
         this.sanierung = sanierungParams;
         this.variants = bauvariants;
+    }
+    getDescription(variant: number) {
+        return this.getVariant(variant).Beschreibung;
     }
     getVariant(variant: number) {
         const found = this.variants.find(v => v.Variant === variant);

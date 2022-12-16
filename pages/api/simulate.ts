@@ -47,6 +47,7 @@ export default function handler(
     series: {
       coldCosts: costGenerator.generateVariants(),
       debts: debtGenerator.generateVariant(activeVariant),
+      description: sanierung.getDescription(activeVariant),
       miete: {
         KaltMiete: costGenerator.generateVariant(activeVariant).Kaltmiete,
         WarmMiete: warmCostGenerator.generateVariant(activeVariant) + costGenerator.generateVariant(activeVariant).Kaltmiete,
