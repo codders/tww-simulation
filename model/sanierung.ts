@@ -57,7 +57,7 @@ export const variants: Bauvariant[] = [
         "Variant": 3
     },
     {
-        "Beschreibung": "We do everything, updated angebot (per 14. Dez), ohne Blakoneaufstockung – Dach, Balkone, Kellerdeckendämmung, Photovoltaik, Außendämmung, Fenster / Türen und Heizung",
+        "Beschreibung": "We do everything, updated angebot (per 14. Dez), ohne Balkoneaufstockung – Dach, Balkone, Kellerdeckendämmung, Photovoltaik, Außendämmung, Fenster / Türen und Heizung",
         "Betriebskosten": 1980,
         "GasverbrauchkWh": 0,
         "Hausnebenkosten": 43.63,
