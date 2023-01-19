@@ -37,18 +37,18 @@ test("annuity total amount variant 1 - 20221214", () => {
     expect(tilgung.getTotalAnnuity(1).toFixed(2)).toBe("59959.65")
 })
 
-test("annuity amounts variant 3 - 20221214", () => {
+test("annuity amounts variant 3 - 20230119", () => {
     const tilgung = new TilgungGenerator(sanierung)
     tilgung.setDirektKredite(700000)
     expect(tilgung.getDkAnnuity(3).toFixed(2)).toBe("23100.00")
-    expect(sanierung.getUncoveredCosts(3).toFixed(2)).toBe("1213173.20")
-    expect(tilgung.getKfwLoanSize(3).toFixed(2)).toBe("513173.20")
-    expect(tilgung.getTotalAnnuity(3).toFixed(2)).toBe("84640.10")
+    expect(sanierung.getUncoveredCosts(3).toFixed(2)).toBe("1231446.18")
+    expect(tilgung.getKfwLoanSize(3).toFixed(2)).toBe("531446.18")
+    expect(tilgung.getTotalAnnuity(3).toFixed(2)).toBe("85389.29")
 })
 
-test("annuity amounts variant 4 - 20221214", () => {
+test("annuity amounts variant 4 - 20230119", () => {
     const tilgung = new TilgungGenerator(sanierung)
     tilgung.setDirektKredite(700000)
     expect(tilgung.getDkAnnuity(4).toFixed(2)).toBe("23100.00")
-    expect(tilgung.getTotalAnnuity(4).toFixed(2)).toBe("87691.86")
+    expect(tilgung.getTotalAnnuity(4).toFixed(2)).toBe("84204.23")
 })

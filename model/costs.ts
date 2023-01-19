@@ -19,7 +19,7 @@ export class ColdCostGenerator {
         if (variant === 1) {
             return 0;
         }
-        return this.getKfwLoanSize(variant) * this.sanierung.getKfwZinssatz();
+        return (this.getKfwLoanSize(variant) * 0.9) * this.sanierung.getKfwZinssatz();
     }
     getNettoBaukosten(variant: number) {
         return this.sanierung.getNettoBaukosten(variant);
@@ -34,7 +34,8 @@ export class ColdCostGenerator {
         if (variant === 1) {
             return 0;
         }
-        return this.getKfwLoanSize(variant) * this.sanierung.getKfwTilgung();
+        /* Wir rechnung hier die Tilgungs zuschuss mit */
+        return (this.getKfwLoanSize(variant) * 0.9) * this.sanierung.getKfwTilgung();
     }
     getSparkasseTilgungAmount() {
         return this.sanierung.getSparkasseOriginalLoanAmount() * this.sanierung.getSparkasseTilgung();

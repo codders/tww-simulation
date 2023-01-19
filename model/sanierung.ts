@@ -52,16 +52,16 @@ export const variants: Bauvariant[] = [
         "Betriebskosten": 1980,
         "GasverbrauchkWh": 0,
         "Hausnebenkosten": 43.63,
-        "NettoBaukosten": 1083338.82,
+        "NettoBaukosten": 1098694.27,
         "StromverbrauchkWh": (15760 + 10678),
         "Variant": 3
     },
     {
-        "Beschreibung": "We do everything, updated angebot (per 14. Dez), plus Balkonverschiebung – Dach, Balkone, Kellerdeckendämmung, Photovoltaik, Außendämmung, Fenster / Türen und Heizung",
+        "Beschreibung": "We do everything, updated angebot (per 14. Dez), ohne Blakoneaufstockung – Dach, Balkone, Kellerdeckendämmung, Photovoltaik, Außendämmung, Fenster / Türen und Heizung",
         "Betriebskosten": 1980,
         "GasverbrauchkWh": 0,
         "Hausnebenkosten": 43.63,
-        "NettoBaukosten": 1145887.65,
+        "NettoBaukosten": 1074405.23,
         "StromverbrauchkWh": (15760 + 10678),
         "Variant": 4
     },

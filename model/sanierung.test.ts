@@ -31,10 +31,10 @@ test("required DKs variant 2 - 20221214", () => {
     expect(new Sanierung(basisParameters20221214, variants20221214).getUncoveredCosts(2).toFixed(2)).toBe("1187452.39")
 })
 
-test("required DKs variant 3 - 20221214", () => {
-    expect(sanierung.getUncoveredCosts(3).toFixed(2)).toBe("1213173.20")
+test("required DKs variant 3 - 20230119", () => {
+    expect(sanierung.getUncoveredCosts(3).toFixed(2)).toBe("1231446.18")
 })
 
-test("required DKs variant 4 - 20221214", () => {
-    expect(sanierung.getUncoveredCosts(4).toFixed(2)).toBe("1287606.30")
+test("required DKs variant 4 - 20230119", () => {
+    expect(sanierung.getUncoveredCosts(4).toFixed(2)).toBe("1202542.22")
 })
