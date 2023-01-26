@@ -74,15 +74,15 @@ export type Finanzierung = {
 
 export const dkReferenceWerte: Finanzierung = {
     Tilgung: 0.003,
-    Zinsen: 0.012,
+    Zinsen: 0.010,
 }
 
-const basisParameters: SanierungParams = {
+export const basisParameters: SanierungParams = {
     GasBasisPreis: 16.35,
     GasPreisEuroProkWh: 0.1065,
     InstandhaltungPerQM: 10,
     KfwTilgung: 0.0288,
-    KfwZinssatz: 0.0122,
+    KfwZinssatz: 0.0149,
     KontoPuffer: 35000,
     Kontostand: 111000,
     OldDKs: 840000,
@@ -93,7 +93,7 @@ const basisParameters: SanierungParams = {
     SparkasseTilgung: 0.0320,
     SparkasseZinssatz: 0.0085,
     StromBasisPreis: 11.26,
-    StromPreisEuroProkWh: 0.5633,
+    StromPreisEuroProkWh: 0.4500,
     WohnraumQM: 681,
 }
 

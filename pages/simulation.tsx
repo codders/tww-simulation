@@ -22,7 +22,7 @@ const NetAssetsProjected: NextPage = () => {
     const [apiOptions, setApiOptions] = useStateWithMerge({
         direktKreditTilgung: dkReferenceWerte.Tilgung * 100,
         direktKreditZinsen: dkReferenceWerte.Zinsen * 100,
-        direktKredite: 200000 + 500000,
+        direktKredite: 400000,
         gasPreisCentskWh: sanierung.getGasPreisEuroProkWh() * 100,
         stromPreisCentskWh: sanierung.getStromPreisEuroProkWh() * 100,
         url: "/api/simulate",
