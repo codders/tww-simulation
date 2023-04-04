@@ -2,8 +2,6 @@ export type SanierungParams = {
     "GasBasisPreis": number,
     "GasPreisEuroProkWh": number,
     "InstandhaltungPerQM": number,
-    "KfwTilgung": number,
-    "KfwZinssatz": number,
     "Kontostand": number,
     "KontoPuffer": number,
     "OldDKs": number,
@@ -51,12 +49,15 @@ export const dkReferenceWerte: Finanzierung = {
     Zinsen: 0.010,
 }
 
+export const kfwReferenceWerte: Finanzierung = {
+    Tilgung: 0.0288,
+    Zinsen: 0.0113,
+}
+
 export const basisParameters: SanierungParams = {
     GasBasisPreis: 16.35,
     GasPreisEuroProkWh: 0.1065,
     InstandhaltungPerQM: 10,
-    KfwTilgung: 0.0288,
-    KfwZinssatz: 0.0113,
     KontoPuffer: 35000,
     Kontostand: 76217.93, // 312217.93
     OldDKs: 804467.93,
@@ -113,12 +114,6 @@ export class Sanierung {
             - this.sanierung.Kontostand
             - this.sanierung.SanierungsDKs
             + this.sanierung.KontoPuffer;
-    }
-    getKfwZinssatz() {
-        return this.sanierung.KfwZinssatz;
-    }
-    getKfwTilgung() {
-        return this.sanierung.KfwTilgung;
     }
     getSparkasseZinssatz() {
         return this.sanierung.SparkasseZinssatz;

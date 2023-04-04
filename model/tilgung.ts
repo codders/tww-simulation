@@ -1,4 +1,4 @@
-import { dkReferenceWerte, Sanierung } from "./sanierung";
+import { dkReferenceWerte, kfwReferenceWerte, Sanierung } from "./sanierung";
 
 function calculateStartAnnuity(creditSum: number, zinsen: number, tilgung: number) {
     return creditSum * (zinsen + tilgung);
@@ -15,18 +15,28 @@ export class TilgungGenerator {
     direktKredite: number;
     dkZinsen: number;
     dkTilgung: number;
+    kfwZinsen: number;
+    kfwTilgung: number;
 
     constructor(sanierung: Sanierung) {
         this.sanierung = sanierung;
         this.direktKredite = 0;
         this.dkZinsen = dkReferenceWerte.Zinsen;
         this.dkTilgung = dkReferenceWerte.Tilgung;
+        this.kfwZinsen = kfwReferenceWerte.Zinsen;
+        this.kfwTilgung = kfwReferenceWerte.Tilgung;
     }
     setDirektKreditZinsen(zinsen: number) {
         this.dkZinsen = zinsen / 100;
     }
     setDirektKreditTilgung(tilgung: number) {
         this.dkTilgung = tilgung / 100;
+    }
+    setKfwKreditZinsen(zinsen: number) {
+        this.kfwZinsen = zinsen / 100;
+    }
+    setKfwKreditTilgung(tilgung: number) {
+        this.kfwTilgung = tilgung / 100;
     }
     setDirektKredite(direktKredite: number) {
         this.direktKredite = direktKredite;
@@ -50,7 +60,7 @@ export class TilgungGenerator {
     }
     getKfwAnnuity(variant: number) {
         const kfwSum = this.getKfwLoanSize(variant);
-        return calculateStartAnnuity(kfwSum, this.sanierung.getKfwZinssatz(), this.sanierung.getKfwTilgung());
+        return calculateStartAnnuity(kfwSum, this.kfwZinsen, this.kfwTilgung);
     }
     getTotalAnnuity(variant: number) {
         return this.getDkAnnuity(variant)
@@ -72,7 +82,7 @@ export class TilgungGenerator {
                 date: new Date(year, 1, 1)
             })
             dkSum = debtAfterNextPayment(dkSum, this.dkZinsen, this.getDkAnnuity(variant));
-            kfwSum = debtAfterNextPayment(kfwSum, this.sanierung.getKfwZinssatz(), this.getKfwAnnuity(variant));
+            kfwSum = debtAfterNextPayment(kfwSum, this.kfwZinsen, this.getKfwAnnuity(variant));
             sparkasseSum = debtAfterNextPayment(sparkasseSum, this.sanierung.getSparkasseZinssatz(), this.getSparkasseAnnuity());
             year = year + 1;
         }

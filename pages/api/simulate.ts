@@ -35,6 +35,14 @@ export default function handler(
     costGenerator.setDirektKreditTilgung(parseFloat(stringParam(params.direktKreditTilgung)));
     tilgungGenerator.setDirektKreditTilgung(parseFloat(stringParam(params.direktKreditTilgung)));
   }
+  if (params.kfwKreditTilgung !== undefined) {
+    costGenerator.setKfwKreditTilgung(parseFloat(stringParam(params.kfwKreditTilgung)));
+    tilgungGenerator.setKfwKreditTilgung(parseFloat(stringParam(params.kfwKreditTilgung)));
+  }
+  if (params.kfwKreditZinsen !== undefined) {
+    costGenerator.setKfwKreditZinsen(parseFloat(stringParam(params.kfwKreditZinsen)));
+    tilgungGenerator.setKfwKreditZinsen(parseFloat(stringParam(params.kfwKreditZinsen)));
+  }
   if (params.stromPreisCentskWh !== undefined) {
     warmCostGenerator.setStromPreisEuroProkWh(parseInt(stringParam(params.stromPreisCentskWh), 10) / 100);
   }

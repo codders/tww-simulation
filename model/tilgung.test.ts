@@ -45,6 +45,7 @@ test("annuity amounts variant 3 - 20230119", () => {
     const tilgung = new TilgungGenerator(new Sanierung(basisParameters20230119, variants20221214));
     tilgung.setDirektKredite(700000)
     tilgung.setDirektKreditZinsen(1.2)
+    tilgung.setKfwKreditZinsen(1.22)
     expect(tilgung.getDkAnnuity(3).toFixed(2)).toBe("23100.00")
     expect(sanierung20230119.getUncoveredCosts(3).toFixed(2)).toBe("1231446.18")
     expect(tilgung.getKfwLoanSize(3).toFixed(2)).toBe("531446.18")
@@ -55,6 +56,7 @@ test("annuity amounts variant 4 - 20230119", () => {
     const tilgung = new TilgungGenerator(new Sanierung(basisParameters20230119, variants20221214));
     tilgung.setDirektKredite(700000)
     tilgung.setDirektKreditZinsen(1.2)
+    tilgung.setKfwKreditZinsen(1.22)
     expect(tilgung.getDkAnnuity(4).toFixed(2)).toBe("23100.00")
     expect(tilgung.getTotalAnnuity(4).toFixed(2)).toBe("84204.23")
 })

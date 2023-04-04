@@ -1,28 +1,37 @@
-import { dkReferenceWerte, Sanierung } from "./sanierung";
+import { dkReferenceWerte, kfwReferenceWerte, Sanierung } from "./sanierung";
 
 export class ColdCostGenerator {
     sanierung: Sanierung;
     direktKredite: number;
     dkZinsen: number;
     dkTilgung: number;
+    kfwTilgung: number;
     kfwTilgungsZuschuss: number;
+    kfwBaunebenkostenZuschuss: number;
+    kfwZinsen: number;
 
-    constructor(sanierung: Sanierung, kfwTilgungsZuschuss: number = 0.1) {
+    constructor(sanierung: Sanierung, kfwTilgungsZuschuss: number = 0.1, kfwBaunebenkostenZuschuss = 0) {
         this.sanierung = sanierung;
         this.direktKredite = 0;
         this.dkZinsen = dkReferenceWerte.Zinsen;
         this.dkTilgung = dkReferenceWerte.Tilgung;
         this.kfwTilgungsZuschuss = kfwTilgungsZuschuss;
+        this.kfwBaunebenkostenZuschuss = kfwBaunebenkostenZuschuss;
+        this.kfwZinsen = kfwReferenceWerte.Zinsen;
+        this.kfwTilgung = kfwReferenceWerte.Tilgung;
     }
     getKfwLoanSize(variant: number) {
         return Math.max(this.sanierung.getUncoveredCosts(variant) - this.direktKredite, 0);
+    }
+    getKfwTilgungsSumme(variant: number) {
+        return this.getKfwLoanSize(variant) - ((this.getKfwLoanSize(variant) - this.kfwBaunebenkostenZuschuss) * this.kfwTilgungsZuschuss) - (this.kfwBaunebenkostenZuschuss * 0.5);
     }
     getKfwZinsenPayment(variant: number) {
         if (variant === 1) {
             return 0;
         }
         /* Wir rechnung hier die Tilgungs zuschuss mit */
-        return (this.getKfwLoanSize(variant) * (1 - this.kfwTilgungsZuschuss)) * this.sanierung.getKfwZinssatz();
+        return this.getKfwTilgungsSumme(variant) * this.kfwZinsen;
     }
     getNettoBaukosten(variant: number) {
         return this.sanierung.getNettoBaukosten(variant);
@@ -38,7 +47,7 @@ export class ColdCostGenerator {
             return 0;
         }
         /* Wir rechnung hier die Tilgungs zuschuss mit */
-        return (this.getKfwLoanSize(variant) * (1 - this.kfwTilgungsZuschuss)) * this.sanierung.getKfwTilgung();
+        return this.getKfwTilgungsSumme(variant) * this.kfwTilgung;
     }
     getSparkasseTilgungAmount() {
         return this.sanierung.getSparkasseOriginalLoanAmount() * this.sanierung.getSparkasseTilgung();
@@ -81,6 +90,12 @@ export class ColdCostGenerator {
     }
     setDirektKreditTilgung(tilgung: number) {
         this.dkTilgung = tilgung / 100;
+    }
+    setKfwKreditZinsen(zinsen: number) {
+        this.kfwZinsen = zinsen / 100;
+    }
+    setKfwKreditTilgung(tilgung: number) {
+        this.kfwTilgung = tilgung / 100;
     }
     generateVariant(variant: number) {
         return ({

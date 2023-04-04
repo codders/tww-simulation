@@ -1,9 +1,12 @@
 import type { NextPage } from 'next'
 import { useReducer } from 'react'
 import { ApiConsumer } from '../components/apiContext'
-import { DirektKreditSlider, DirektKreditTilgungSlider, DirektKreditZinsenSlider } from '../components/direktKredite'
+import { DirektKreditSlider,
+    DirektKreditTilgungSlider,
+    DirektKreditZinsenSlider } from '../components/direktKredite'
 import { GasPreisSlider, StromPreisSlider } from '../components/energieVersorgung'
-import { dkReferenceWerte, sanierung } from '../model/sanierung'
+import { KfwKreditTilgungSlider, KfwKreditZinsenSlider } from '../components/kfwKredit'
+import { dkReferenceWerte, kfwReferenceWerte, sanierung } from '../model/sanierung'
 import styles from '../styles/Home.module.css'
 import { Footer } from './_footer'
 import Graph from './_graph'
@@ -23,6 +26,8 @@ const NetAssetsProjected: NextPage = () => {
         direktKreditZinsen: dkReferenceWerte.Zinsen * 100,
         direktKredite: 400000,
         gasPreisCentskWh: sanierung.getGasPreisEuroProkWh() * 100,
+        kfwKreditTilgung: kfwReferenceWerte.Tilgung * 100,
+        kfwKreditZinsen: kfwReferenceWerte.Zinsen * 100,
         stromPreisCentskWh: sanierung.getStromPreisEuroProkWh() * 100,
         url: "/api/simulate",
         variant: 4
@@ -67,6 +72,12 @@ const NetAssetsProjected: NextPage = () => {
                         </div>
                         <div>
                             <DirektKreditTilgungSlider />
+                        </div>
+                        <div>
+                            <KfwKreditZinsenSlider />
+                        </div>
+                        <div>
+                            <KfwKreditTilgungSlider />
                         </div>
                         <div>
                             <StromPreisSlider />
