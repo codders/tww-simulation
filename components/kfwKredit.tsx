@@ -1,4 +1,5 @@
 import { Range } from 'react-range';
+import Switch from "react-switch";
 import { useApiContext } from './apiContext';
 
 export const KfwKreditZinsenSlider = (componentProps: any) => {
@@ -77,4 +78,20 @@ export const KfwKreditTilgungSlider = (componentProps: any) => {
         )}
       />
     </>)
+}
+
+export const KfwTilgungsSwitch = (props: any) => {
+    const { apiOptions, updateApiOptions } = useApiContext();
+    const setChecked = (checked: boolean) => {
+        updateApiOptions({ kfwTilgungInclusive: checked });
+    };
+
+    return (
+        <label>
+            <h3>
+                <span>{apiOptions.kfwTilgungInclusive ? "Kfw Tilgung Inkl." : "Kfw Tilgung Excl."}</span><br/>
+                <Switch onChange={setChecked} checked={apiOptions.kfwTilgungInclusive} />
+            </h3>
+        </label>
+    );
 }

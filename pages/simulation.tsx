@@ -5,7 +5,7 @@ import { DirektKreditSlider,
     DirektKreditTilgungSlider,
     DirektKreditZinsenSlider } from '../components/direktKredite'
 import { GasPreisSlider, StromPreisSlider } from '../components/energieVersorgung'
-import { KfwKreditTilgungSlider, KfwKreditZinsenSlider } from '../components/kfwKredit'
+import { KfwKreditTilgungSlider, KfwKreditZinsenSlider, KfwTilgungsSwitch } from '../components/kfwKredit'
 import { dkReferenceWerte, kfwReferenceWerte, sanierung } from '../model/sanierung'
 import styles from '../styles/Home.module.css'
 import { Footer } from './_footer'
@@ -28,6 +28,7 @@ const NetAssetsProjected: NextPage = () => {
         gasPreisCentskWh: sanierung.getGasPreisEuroProkWh() * 100,
         kfwKreditTilgung: kfwReferenceWerte.Tilgung * 100,
         kfwKreditZinsen: kfwReferenceWerte.Zinsen * 100,
+        kfwTilgungInclusive: true,
         stromPreisCentskWh: sanierung.getStromPreisEuroProkWh() * 100,
         url: "/api/simulate",
         variant: 4
@@ -78,6 +79,9 @@ const NetAssetsProjected: NextPage = () => {
                         </div>
                         <div>
                             <KfwKreditTilgungSlider />
+                        </div>
+                        <div>
+                            <KfwTilgungsSwitch />
                         </div>
                         <div>
                             <StromPreisSlider />

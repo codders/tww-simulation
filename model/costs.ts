@@ -9,6 +9,7 @@ export class ColdCostGenerator {
     kfwTilgungsZuschuss: number;
     kfwBaunebenkostenZuschuss: number;
     kfwZinsen: number;
+    kfwTilgungsZuschussIncluded: boolean;
 
     constructor(sanierung: Sanierung, kfwTilgungsZuschuss: number = 0.1, kfwBaunebenkostenZuschuss = 0) {
         this.sanierung = sanierung;
@@ -19,6 +20,7 @@ export class ColdCostGenerator {
         this.kfwBaunebenkostenZuschuss = kfwBaunebenkostenZuschuss;
         this.kfwZinsen = kfwReferenceWerte.Zinsen;
         this.kfwTilgung = kfwReferenceWerte.Tilgung;
+        this.kfwTilgungsZuschussIncluded = false;
     }
     getKfwLoanSize(variant: number) {
         return Math.max(this.sanierung.getUncoveredCosts(variant) - this.direktKredite, 0);
@@ -96,6 +98,9 @@ export class ColdCostGenerator {
     }
     setKfwKreditTilgung(tilgung: number) {
         this.kfwTilgung = tilgung / 100;
+    }
+    setKfwTilgungIncluded(included: boolean) {
+        this.kfwTilgungsZuschussIncluded = included;
     }
     generateVariant(variant: number) {
         return ({

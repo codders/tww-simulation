@@ -9,6 +9,7 @@ const ApiContext = createContext({
         gasPreisCentskWh: sanierung.getGasPreisEuroProkWh() * 100,
         kfwKreditTilgung: 1,
         kfwKreditZinsen: 3,
+        kfwTilgungInclusive: true,
         stromPreisCentskWh: sanierung.getStromPreisEuroProkWh() * 100,
         url: "",
         variant: 1,

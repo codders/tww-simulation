@@ -48,8 +48,6 @@ export const basisParametersBase: SanierungParams = {
     GasBasisPreis: 16.35,
     GasPreisEuroProkWh: 0.1065,
     InstandhaltungPerQM: 10,
-    // KfwTilgung: 0.0288,
-    // KfwZinssatz: 0.0149,
     KontoPuffer: 35000,
     Kontostand: 111000,
     OldDKs: 840000,
@@ -66,15 +64,12 @@ export const basisParametersBase: SanierungParams = {
 }
 
 export const basisParameters20221214: SanierungParams = Object.assign({}, basisParametersBase, {
-    // KfwTilgung: 0.0333,
-    // KfwZinssatz: 0.0122,
     KontoPuffer: 20000,
     OldDKs: 837859,
     StromPreisEuroProkWh: 0.5633,
 });
 
 export const basisParameters20230119: SanierungParams = Object.assign({}, basisParametersBase, {
-    // KfwZinssatz: 0.0122,
     StromPreisEuroProkWh: 0.5633,
 });
 

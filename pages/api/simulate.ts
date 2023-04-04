@@ -16,7 +16,14 @@ export default function handler(
   res: NextApiResponse<GraphData<AnnualCostSeries>>
 ) {
   const params = req.query;
-  const costGenerator = new ColdCostGenerator(sanierung, 0);
+  let kfwTilgungsZuschussIncluded = false;
+  if (params.kfwTilgungInclusive !== undefined) {
+    kfwTilgungsZuschussIncluded = stringParam(params.kfwTilgungInclusive) === "true";
+  }
+
+  const costGenerator = new ColdCostGenerator(sanierung,
+    kfwTilgungsZuschussIncluded ? 0.25 : 0,
+    kfwTilgungsZuschussIncluded ? 40000 : 0);
   const debtGenerator = new DebtGenerator(sanierung);
   const tilgungGenerator = new TilgungGenerator(sanierung);
   const warmCostGenerator = new WarmCostGenerator(sanierung);
@@ -48,6 +55,9 @@ export default function handler(
   }
   if (params.gasPreisCentskWh !== undefined) {
     warmCostGenerator.setGasPreisEuroProkWh(parseInt(stringParam(params.gasPreisCentskWh), 10) / 100);
+  }
+  if (params.kfwTilgungInclusive !== undefined) {
+    costGenerator.setKfwTilgungIncluded(stringParam(params.kfwTilgungInclusive) === "true");
   }
 
   res.status(200).json({
