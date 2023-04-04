@@ -3,7 +3,6 @@ import { useReducer } from 'react'
 import { ApiConsumer } from '../components/apiContext'
 import { DirektKreditSlider, DirektKreditTilgungSlider, DirektKreditZinsenSlider } from '../components/direktKredite'
 import { GasPreisSlider, StromPreisSlider } from '../components/energieVersorgung'
-import VariantSlider from '../components/variantSlider'
 import { dkReferenceWerte, sanierung } from '../model/sanierung'
 import styles from '../styles/Home.module.css'
 import { Footer } from './_footer'
@@ -26,7 +25,7 @@ const NetAssetsProjected: NextPage = () => {
         gasPreisCentskWh: sanierung.getGasPreisEuroProkWh() * 100,
         stromPreisCentskWh: sanierung.getStromPreisEuroProkWh() * 100,
         url: "/api/simulate",
-        variant: 1
+        variant: 4
     })
     const urlForOptions = (options: any) => {
         const { url, ...queryOptions } = options;
@@ -60,9 +59,6 @@ const NetAssetsProjected: NextPage = () => {
                     </div>
 
                     <div className={styles.sliderGrid}>
-                        <div>
-                            <VariantSlider />
-                        </div>
                         <div>
                             <DirektKreditSlider />
                         </div>

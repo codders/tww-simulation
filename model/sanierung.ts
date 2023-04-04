@@ -15,6 +15,7 @@ export type SanierungParams = {
     "SparkasseZinssatz": number,
     "StromPreisEuroProkWh": number,
     "StromBasisPreis": number,
+    "VerwaltungsKostenEurProQM": number,
     "WohnraumQM": number,
 }
 
@@ -30,38 +31,11 @@ export type Bauvariant = {
 
 export const variants: Bauvariant[] = [
     {
-        "Beschreibung": "We do the minimal – Kellerdeckendämmung and Dach (inkl. Photovoltaik)",
-        "Betriebskosten": 0,
-        "GasverbrauchkWh": 90269.5,
-        "Hausnebenkosten": 48.74,
-        "NettoBaukosten": 630283.46,
-        "StromverbrauchkWh": 10678,
-        "Variant": 1
-    },
-    {
-        "Beschreibung": "We do everything – Dach, Balkone, Kellerdeckendämmung, Photovoltaik, Außendämmung, Fenster / Türen und Heizung",
+        "Beschreibung": "Komplett Sanierung (per 29. März Angebot)",
         "Betriebskosten": 1980,
         "GasverbrauchkWh": 0,
         "Hausnebenkosten": 43.63,
-        "NettoBaukosten": 1072413.77,
-        "StromverbrauchkWh": (15760 + 10678),
-        "Variant": 2
-    },
-    {
-        "Beschreibung": "We do everything, updated angebot (per 14. Dez) – Dach, Balkone, Kellerdeckendämmung, Photovoltaik, Außendämmung, Fenster / Türen und Heizung",
-        "Betriebskosten": 1980,
-        "GasverbrauchkWh": 0,
-        "Hausnebenkosten": 43.63,
-        "NettoBaukosten": 1098694.27,
-        "StromverbrauchkWh": (15760 + 10678),
-        "Variant": 3
-    },
-    {
-        "Beschreibung": "We do everything, updated angebot (per 14. Dez), ohne Balkoneaufstockung – Dach, Balkone, Kellerdeckendämmung, Photovoltaik, Außendämmung, Fenster / Türen und Heizung",
-        "Betriebskosten": 1980,
-        "GasverbrauchkWh": 0,
-        "Hausnebenkosten": 43.63,
-        "NettoBaukosten": 1074405.23,
+        "NettoBaukosten": 1266129.5,
         "StromverbrauchkWh": (15760 + 10678),
         "Variant": 4
     },
@@ -82,10 +56,10 @@ export const basisParameters: SanierungParams = {
     GasPreisEuroProkWh: 0.1065,
     InstandhaltungPerQM: 10,
     KfwTilgung: 0.0288,
-    KfwZinssatz: 0.0149,
+    KfwZinssatz: 0.0113,
     KontoPuffer: 35000,
-    Kontostand: 111000,
-    OldDKs: 840000,
+    Kontostand: 76217.93, // 312217.93
+    OldDKs: 804467.93,
     SanierungsDKs: 0,
     SolidarityPercent: 0.1,
     SparkasseOriginalLoanAmount: 1000000,
@@ -94,6 +68,7 @@ export const basisParameters: SanierungParams = {
     SparkasseZinssatz: 0.0085,
     StromBasisPreis: 11.26,
     StromPreisEuroProkWh: 0.4500,
+    VerwaltungsKostenEurProQM: 3,
     WohnraumQM: 681,
 }
 
@@ -117,6 +92,9 @@ export class Sanierung {
     }
     getInstandhaltungsKosten() {
         return this.sanierung.InstandhaltungPerQM * this.sanierung.WohnraumQM;
+    }
+    getVerwaltungsKosten() {
+        return this.sanierung.VerwaltungsKostenEurProQM * this.sanierung.WohnraumQM;
     }
     getSolidarbeitrag() {
         return this.sanierung.WohnraumQM * 12 * this.sanierung.SolidarityPercent;

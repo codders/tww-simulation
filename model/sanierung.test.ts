@@ -1,15 +1,5 @@
-import { cloneVariants, updateVariant } from "../util/helper"
-import { sanierung, Sanierung, SanierungParams, variants } from "./sanierung"
-
-const basisParameters20221214: SanierungParams = Object.assign(Object.assign({}, sanierung.sanierung), {
-    KfwTilgung: 0.0333,
-    KontoPuffer: 20000,
-    OldDKs: 837859,
-})
-
-const variants20221214 = cloneVariants(variants)
-updateVariant(variants20221214, 1, { NettoBaukosten: 630283.46 })
-updateVariant(variants20221214, 2, { NettoBaukosten: 1074329.74 })
+import { sanierung, Sanierung } from "./sanierung"
+import { basisParameters20221214, basisParameters20230119, sanierung20230119, variants20221214, variants20230119 } from "./variantHistory"
 
 test("Clone and update", () => {
     expect(new Sanierung(basisParameters20221214, variants20221214).getNettoBaukosten(2)).toBe(1074329.74)
@@ -32,9 +22,13 @@ test("required DKs variant 2 - 20221214", () => {
 })
 
 test("required DKs variant 3 - 20230119", () => {
-    expect(sanierung.getUncoveredCosts(3).toFixed(2)).toBe("1231446.18")
+    expect(new Sanierung(basisParameters20230119, variants20230119).getUncoveredCosts(3).toFixed(2)).toBe("1231446.18")
 })
 
 test("required DKs variant 4 - 20230119", () => {
-    expect(sanierung.getUncoveredCosts(4).toFixed(2)).toBe("1202542.22")
+    expect(sanierung20230119.getUncoveredCosts(4).toFixed(2)).toBe("1202542.22")
+})
+
+test("uncovered costs variant 4 - 20230404", () => {
+    expect(sanierung.getUncoveredCosts(4).toFixed(2)).toBe("1465476.18")
 })

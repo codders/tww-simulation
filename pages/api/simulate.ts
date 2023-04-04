@@ -16,7 +16,7 @@ export default function handler(
   res: NextApiResponse<GraphData<AnnualCostSeries>>
 ) {
   const params = req.query;
-  const costGenerator = new ColdCostGenerator(sanierung);
+  const costGenerator = new ColdCostGenerator(sanierung, 0);
   const debtGenerator = new DebtGenerator(sanierung);
   const tilgungGenerator = new TilgungGenerator(sanierung);
   const warmCostGenerator = new WarmCostGenerator(sanierung);

@@ -5,12 +5,14 @@ export class ColdCostGenerator {
     direktKredite: number;
     dkZinsen: number;
     dkTilgung: number;
+    kfwTilgungsZuschuss: number;
 
-    constructor(sanierung: Sanierung) {
+    constructor(sanierung: Sanierung, kfwTilgungsZuschuss: number = 0.1) {
         this.sanierung = sanierung;
         this.direktKredite = 0;
         this.dkZinsen = dkReferenceWerte.Zinsen;
         this.dkTilgung = dkReferenceWerte.Tilgung;
+        this.kfwTilgungsZuschuss = kfwTilgungsZuschuss;
     }
     getKfwLoanSize(variant: number) {
         return Math.max(this.sanierung.getUncoveredCosts(variant) - this.direktKredite, 0);
@@ -19,7 +21,8 @@ export class ColdCostGenerator {
         if (variant === 1) {
             return 0;
         }
-        return (this.getKfwLoanSize(variant) * 0.9) * this.sanierung.getKfwZinssatz();
+        /* Wir rechnung hier die Tilgungs zuschuss mit */
+        return (this.getKfwLoanSize(variant) * (1 - this.kfwTilgungsZuschuss)) * this.sanierung.getKfwZinssatz();
     }
     getNettoBaukosten(variant: number) {
         return this.sanierung.getNettoBaukosten(variant);
@@ -35,7 +38,7 @@ export class ColdCostGenerator {
             return 0;
         }
         /* Wir rechnung hier die Tilgungs zuschuss mit */
-        return (this.getKfwLoanSize(variant) * 0.9) * this.sanierung.getKfwTilgung();
+        return (this.getKfwLoanSize(variant) * (1 - this.kfwTilgungsZuschuss)) * this.sanierung.getKfwTilgung();
     }
     getSparkasseTilgungAmount() {
         return this.sanierung.getSparkasseOriginalLoanAmount() * this.sanierung.getSparkasseTilgung();
@@ -54,12 +57,14 @@ export class ColdCostGenerator {
     getMietausfallwagnis(variant: number) {
         return (this.getFinancingCosts(variant)
             + this.sanierung.getSolidarbeitrag()
-            + this.sanierung.getInstandhaltungsKosten()) * 0.0309
+            + this.sanierung.getInstandhaltungsKosten()
+            + this.sanierung.getVerwaltungsKosten()) * (1/0.97 - 1)
     }
     getTotalCosts(variant: number) {
         return this.getMietausfallwagnis(variant)
             + this.sanierung.getSolidarbeitrag()
             + this.sanierung.getInstandhaltungsKosten()
+            + this.sanierung.getVerwaltungsKosten()
             + this.getFinancingCosts(variant)
     }
     getTotalDKs(variant: number) {
